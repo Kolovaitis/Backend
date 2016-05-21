@@ -128,6 +128,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthServerProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,9 +140,25 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Backend.Configuration\Backend.Configuration.csproj">
-      <Project>{69597da2-dc01-4ec4-b4b6-0d84e7d5d7de}</Project>
+    <ProjectReference Include="..\Backend.Abstractions\Backend.Abstractions.csproj">
+      <Project>{072f7f1b-431e-48d4-bdd8-c8bf3ea773a6}</Project>
+      <Name>Backend.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Backend.Configuration\Backend.Configuration.csproj">
+      <Project>{f8534b3e-a5d1-4b76-891a-ba4f41e157cd}</Project>
       <Name>Backend.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Backend.Database\Backend.Database.csproj">
+      <Project>{bca34984-3f0e-46b9-b79c-738043ba6877}</Project>
+      <Name>Backend.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Backend.PasswordHasher\Backend.PasswordHasher.csproj">
+      <Project>{24e0ebd5-b31d-4e69-ae87-b797eb5eaafb}</Project>
+      <Name>Backend.PasswordHasher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Backend.Service\Backend.Service.csproj">
+      <Project>{1899bf7e-5c06-4d5e-a7dd-d8c176eaf522}</Project>
+      <Name>Backend.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

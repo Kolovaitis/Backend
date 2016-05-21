@@ -9,10 +9,12 @@ namespace Backend.Configuration
     public interface IConfiguraiton
     {
         string Host { get; }
+        string NameDatabase { get; }
     }
 
     public class Configuration : IConfiguraiton
     {
         public string Host => "http://localhost:9000";
+        public string NameDatabase { get; } = "loliboo";
     }
 }

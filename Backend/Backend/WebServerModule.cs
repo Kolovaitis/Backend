@@ -1,4 +1,8 @@
 ﻿using Backend.Configuration;
+using Backend.Database;
+using Backend.PasswordHasher;
+using Backend.Service;
+using Microsoft.Owin.Security.OAuth;
 using Ninject;
 using Ninject.Modules;
 using System;
@@ -14,7 +18,12 @@ namespace Backend
         public override void Load()
         {
             Kernel.Load(new ConfigurationModule());
+            Kernel.Load(new EntityFrameworkModule());
+            Kernel.Load(new ServiceModule());
+
+            Bind<IPasswordHasher>().To<PasswordHasher.PasswordHasher>();
             Bind<WebServer>().ToSelf();
+            Bind<IOAuthAuthorizationServerProvider>().To<AuthServerProvider>();
         }
     }
 }

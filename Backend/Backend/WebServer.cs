@@ -54,12 +54,25 @@ namespace Backend
                     Console.WriteLine($"<< [{request.RemoteIpAddress}] HTTP {response.StatusCode} {((HttpStatusCode)response.StatusCode)}: {response.ContentLength} bytes");
                 });
 
+                var kernel = createKernel();
+
+                builder.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
+                {
+                    AllowInsecureHttp = true,
+                    TokenEndpointPath = new PathString("/login"),
+                    AccessTokenExpireTimeSpan = TimeSpan.FromHours(24),
+                    Provider = kernel.Get<IOAuthAuthorizationServerProvider>()
+                });
+
+
+                builder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
                 builder.UseNinjectMiddleware(createKernel);
                 builder.UseNinjectWebApi(configuration);
             });
 
             Console.WriteLine($"Server started at {_host}");
         }
+
 
         public void Stop()
         {

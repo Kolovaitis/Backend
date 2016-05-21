@@ -22,13 +22,17 @@ namespace Backend.Service
         public User GetUserByEmail(string email)
         {
             var user = _userRepository.GetUserByEmail(email);
-            return new User { Email = user.Email, Name = user.Name, PasswordHash = user.PasswordHash, PasswordSalt = user.PasswordSalt};
+            return new User { Email = user.Email, Name = user.Name, PasswordHash = user.PasswordHash};
+        }
+
+        public UserEntity GetUserEntityByEmail(string email)
+        {
+            return _userRepository.GetUserByEmail(email);
         }
 
         public async Task Registration(User user)
         {
-            await _userRepository.Registration(new UserEntity() { Email = user.Email, Name = user.Name, PasswordHash = user.PasswordHash, PasswordSalt = user.PasswordSalt, _id = new ObjectId() });
-            // создать класс превращения User в UserEntity и наоборот
+            await _userRepository.Registration(new UserEntity() { Email = user.Email, Name = user.Name, PasswordHash = user.PasswordHash, _id = new ObjectId() });
         }
     }
 }

@@ -18,10 +18,10 @@ namespace Backend.Controllers
             _service = service;
         }
 
-        [HttpGet, Route("hello")]
-        public IHttpActionResult Hello()
+        [HttpPost, Route("getUser/{email}")]
+        public IHttpActionResult GetUser(string email)
         {
-            return Ok("hello");
+            return Ok(_service.GetUserByEmail(email));
         }
 
         [HttpPost, Route("registration"), AllowAnonymous]
@@ -29,13 +29,6 @@ namespace Backend.Controllers
         {
             _service.Registration(user);
             return Ok();
-        }
-
-        [HttpPost, Route("name"), AllowAnonymous]
-        public IHttpActionResult Name()
-        {
-            
-            return Ok(_service.GetUserByEmail("egorix2000@mail.ru"));
         }
     }
 }

@@ -152,6 +152,10 @@
       <Project>{bca34984-3f0e-46b9-b79c-738043ba6877}</Project>
       <Name>Backend.Database</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Backend.DbEntities\Backend.DbEntities.csproj">
+      <Project>{08D860EF-A10D-4B6E-8923-41944DCAB35A}</Project>
+      <Name>Backend.DbEntities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Backend.PasswordHasher\Backend.PasswordHasher.csproj">
       <Project>{24e0ebd5-b31d-4e69-ae87-b797eb5eaafb}</Project>
       <Name>Backend.PasswordHasher</Name>

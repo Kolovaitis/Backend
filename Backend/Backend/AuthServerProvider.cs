@@ -29,7 +29,7 @@ namespace Backend
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext credentialsContext)
         {
-            var user =  _service.GetUserByEmail(credentialsContext.UserName);
+            var user =  _service.GetUserEntityByEmail(credentialsContext.UserName);
             if (user != null)
             {
                 if (!_passwordHasher.VerifyHash(credentialsContext.Password, user.PasswordHash, user.PasswordSalt))

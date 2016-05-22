@@ -22,25 +22,31 @@ namespace Backend.Database.DbRepositories
             _passwordHasher = passwordHasher;
         }
 
-        public async Task ChangeCredentials(UserEntity user)
+        public async Task ChangeCredentials(string password, UserEntity user)
         {
-            var changedUser = await _context.users.Find(u => u.Email == user.Email).FirstOrDefaultAsync();
+            var changedUser = await _context.users.Find(u => _passwordHasher.VerifyHash(password, u.PasswordHash, u.PasswordSalt)).FirstOrDefaultAsync();
+            if (_passwordHasher.VerifyHash(password, changedUser.PasswordHash, changedUser.PasswordSalt))
+            {
+                user.PasswordHash = changedUser.PasswordHash;
+                user.PasswordSalt = changedUser.PasswordSalt;
+                user.Email = user.Email ?? changedUser.Email;
+                user.Name = changedUser.Name;
+                user._id = changedUser._id;
 
-            user.PasswordHash = user.PasswordHash ?? changedUser.PasswordHash;
-            user.PasswordSalt = user.PasswordSalt ?? changedUser.PasswordSalt;
-            user.Email = user.Email ?? changedUser.Email;
-            user.Name = user.Name ?? changedUser.Name;
-            user._id = user._id ?? changedUser.Name;
-
-            _context.users.DeleteOne(u => u.Email == user.Email);
-            _context.users.InsertOne(user);
+                _context.users.DeleteOne(u => u._id == changedUser._id);
+                _context.users.InsertOne(user);
+            }
         }
 
         public async Task ChangeInfo(UserEntity user)
         {
             var changedUser = await _context.users.Find(u => u.Email == user.Email).FirstOrDefaultAsync();
 
+            user.PasswordHash = changedUser.PasswordHash;
+            user.PasswordSalt = changedUser.PasswordSalt;
+            user.Email = changedUser.Email;
             user.Name = user.Name ?? changedUser.Name;
+            user._id = changedUser._id;
 
             _context.users.DeleteOne(u => u.Email == user.Email);
             _context.users.InsertOne(user);

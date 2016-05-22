@@ -10,8 +10,10 @@ namespace Backend.Service
 {
     public interface IService
     {
-        User GetUserByEmail(string email);
+        User GetUserByEmail(User user);
         UserEntity GetUserEntityByEmail(string email);
         Task Registration(User user);
+        Task ChangeInfo(User user);
+        Task ChangeCredentials(User user);
     }
 }

@@ -19,10 +19,34 @@ namespace Backend.Service
             _userRepository = userRepository;
         }
 
-        public User GetUserByEmail(string email)
+        public async Task ChangeCredentials(User user)
         {
-            var user = _userRepository.GetUserByEmail(email);
-            return new User { Email = user.Email, Name = user.Name, PasswordHash = user.PasswordHash};
+            var entity = new UserEntity
+            {
+                Email = user.Email,
+                Name = user.Name
+            };
+            var newPassword = user.PasswordHash;
+            await _userRepository.ChangeCredentials(user.OldPassword, newPassword,entity);
+        }
+
+        public async Task ChangeInfo(User user)
+        {
+            var entity = new UserEntity
+            {
+                Email = user.Email,
+                Name = user.Name
+                
+            };
+            await _userRepository.ChangeInfo(entity);
+        }
+
+        public User GetUserByEmail(User user)
+        {
+            var _user = _userRepository.GetUserByEmail(user.Email);
+            if (_user == null)
+                return new User();
+            return new User { Email = _user.Email, Name = _user.Name, PasswordHash = _user.PasswordHash};
         }
 
         public UserEntity GetUserEntityByEmail(string email)

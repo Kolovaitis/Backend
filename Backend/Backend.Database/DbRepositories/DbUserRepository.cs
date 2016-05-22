@@ -22,6 +22,30 @@ namespace Backend.Database.DbRepositories
             _passwordHasher = passwordHasher;
         }
 
+        public async Task ChangeCredentials(UserEntity user)
+        {
+            var changedUser = await _context.users.Find(u => u.Email == user.Email).FirstOrDefaultAsync();
+
+            user.PasswordHash = user.PasswordHash ?? changedUser.PasswordHash;
+            user.PasswordSalt = user.PasswordSalt ?? changedUser.PasswordSalt;
+            user.Email = user.Email ?? changedUser.Email;
+            user.Name = user.Name ?? changedUser.Name;
+            user._id = user._id ?? changedUser.Name;
+
+            _context.users.DeleteOne(u => u.Email == user.Email);
+            _context.users.InsertOne(user);
+        }
+
+        public async Task ChangeInfo(UserEntity user)
+        {
+            var changedUser = await _context.users.Find(u => u.Email == user.Email).FirstOrDefaultAsync();
+
+            user.Name = user.Name ?? changedUser.Name;
+
+            _context.users.DeleteOne(u => u.Email == user.Email);
+            _context.users.InsertOne(user);
+        }
+
         public UserEntity GetUserByEmail(string email)
         {
             return _context.users.Find(u => u.Email == email).FirstOrDefault();

@@ -27,9 +27,16 @@ namespace Backend.Database.DbRepositories
             var changedUser = await _context.users.Find(u => _passwordHasher.VerifyHash(oldPassword, u.PasswordHash, u.PasswordSalt)).FirstOrDefaultAsync();
             if (changedUser != null)
             {
-                var newHash = _passwordHasher.GenerateHash(newPassword);
-                user.PasswordHash = newHash.Hash;
-                user.PasswordSalt = newHash.Salt;
+                if (newPassword != null)
+                {
+                    var newHash = _passwordHasher.GenerateHash(newPassword);
+                    user.PasswordHash = newHash.Hash;
+                    user.PasswordSalt = newHash.Salt;
+                } else
+                {
+                    user.PasswordHash = changedUser.PasswordHash;
+                    user.PasswordSalt = changedUser.PasswordSalt;
+                }
                 user.Email = user.Email ?? changedUser.Email;
                 user.Name = changedUser.Name;
                 user._id = changedUser._id;

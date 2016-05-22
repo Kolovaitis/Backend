@@ -18,10 +18,10 @@ namespace Backend.Controllers
             _service = service;
         }
 
-        [HttpPost, Route("getUser/{email}")]
-        public IHttpActionResult GetUser(string email)
+        [HttpPost, Route("getUser")]
+        public IHttpActionResult GetUser(User user)
         {
-            return Ok(_service.GetUserByEmail(email));
+            return Ok(_service.GetUserByEmail(user));
         }
 
         [HttpPost, Route("registration"), AllowAnonymous]
@@ -39,9 +39,9 @@ namespace Backend.Controllers
         }
 
         [HttpPost, Route("changeCredentials")]
-        public IHttpActionResult ChangeCredentials(string oldPassword, User user)
+        public IHttpActionResult ChangeCredentials(User user)
         {
-            _service.ChangeCredentials(oldPassword, user);
+            _service.ChangeCredentials(user);
             return Ok();
         }
     }

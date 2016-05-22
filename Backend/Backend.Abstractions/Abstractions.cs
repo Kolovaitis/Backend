@@ -14,6 +14,7 @@ namespace Backend.Abstractions
 
     public class User : Entity
     {
+        public string OldPassword { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
 

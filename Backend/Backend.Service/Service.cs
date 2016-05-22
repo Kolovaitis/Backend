@@ -19,7 +19,7 @@ namespace Backend.Service
             _userRepository = userRepository;
         }
 
-        public async Task ChangeCredentials(string oldPassword, User user)
+        public async Task ChangeCredentials(User user)
         {
             var entity = new UserEntity
             {
@@ -27,7 +27,7 @@ namespace Backend.Service
                 Name = user.Name
             };
             var newPassword = user.PasswordHash;
-            await _userRepository.ChangeCredentials(oldPassword,newPassword,entity);
+            await _userRepository.ChangeCredentials(user.OldPassword, newPassword,entity);
         }
 
         public async Task ChangeInfo(User user)
@@ -41,10 +41,10 @@ namespace Backend.Service
             await _userRepository.ChangeInfo(entity);
         }
 
-        public User GetUserByEmail(string email)
+        public User GetUserByEmail(User user)
         {
-            var user = _userRepository.GetUserByEmail(email);
-            return new User { Email = user.Email, Name = user.Name, PasswordHash = user.PasswordHash};
+            var _user = _userRepository.GetUserByEmail(user.Email);
+            return new User { Email = _user.Email, Name = _user.Name, PasswordHash = _user.PasswordHash};
         }
 
         public UserEntity GetUserEntityByEmail(string email)

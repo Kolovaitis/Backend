@@ -24,7 +24,7 @@ namespace Backend.Database.DbRepositories
 
         public async Task ChangeCredentials(string oldPassword, string newPassword, UserEntity user)
         {
-            var changedUser = await _context.users.Find(u => _passwordHasher.VerifyHash(oldPassword, u.PasswordHash, u.PasswordSalt)).FirstOrDefaultAsync();
+            var changedUser = _context.users.AsQueryable().ToList().FirstOrDefault(u => _passwordHasher.VerifyHash(oldPassword, u.PasswordHash, u.PasswordSalt));
             if (changedUser != null)
             {
                 if (newPassword != null)
@@ -65,10 +65,10 @@ namespace Backend.Database.DbRepositories
             return _context.users.Find(u => u.Email == email).FirstOrDefault();
         }
 
-
-
         public async Task Registration(UserEntity user)
         {
+            if (_context.users.Find(u => u.Email == user.Email).FirstOrDefault() != null)
+                return;
             var hashResult = _passwordHasher.GenerateHash(user.PasswordHash);
             user.PasswordHash = hashResult.Hash;
             user.PasswordSalt = hashResult.Salt;

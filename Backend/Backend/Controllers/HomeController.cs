@@ -39,9 +39,9 @@ namespace Backend.Controllers
         }
 
         [HttpPost, Route("changeCredentials")]
-        public IHttpActionResult ChangeCredentials(User user)
+        public IHttpActionResult ChangeCredentials(string oldPassword, User user)
         {
-            _service.ChangeCredentials(user);
+            _service.ChangeCredentials(oldPassword, user);
             return Ok();
         }
     }

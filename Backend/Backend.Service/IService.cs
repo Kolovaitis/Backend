@@ -14,6 +14,6 @@ namespace Backend.Service
         UserEntity GetUserEntityByEmail(string email);
         Task Registration(User user);
         Task ChangeInfo(User user);
-        Task ChangeCredentials(User user);
+        Task ChangeCredentials(string oldPassword, User user);
     }
 }

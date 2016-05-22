@@ -19,7 +19,7 @@ namespace Backend.Service
             _userRepository = userRepository;
         }
 
-        public Task ChangeCredentials(User user)
+        public Task ChangeCredentials(string oldPassword, User user)
         {
             throw new NotImplementedException();
         }

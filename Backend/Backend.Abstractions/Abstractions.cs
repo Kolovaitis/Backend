@@ -24,6 +24,6 @@ namespace Backend.Abstractions
         UserEntity GetUserByEmail(string email);
         Task Registration(UserEntity user);
         Task ChangeInfo(UserEntity user);
-        Task ChangeCredentials(string password, UserEntity user);
+        Task ChangeCredentials(string oldPassword, string newPassword, UserEntity user);
     }
 }

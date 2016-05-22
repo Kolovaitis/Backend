@@ -22,13 +22,14 @@ namespace Backend.Database.DbRepositories
             _passwordHasher = passwordHasher;
         }
 
-        public async Task ChangeCredentials(string password, UserEntity user)
+        public async Task ChangeCredentials(string oldPassword, string newPassword, UserEntity user)
         {
-            var changedUser = await _context.users.Find(u => _passwordHasher.VerifyHash(password, u.PasswordHash, u.PasswordSalt)).FirstOrDefaultAsync();
+            var changedUser = await _context.users.Find(u => _passwordHasher.VerifyHash(oldPassword, u.PasswordHash, u.PasswordSalt)).FirstOrDefaultAsync();
             if (changedUser != null)
             {
-                user.PasswordHash = changedUser.PasswordHash;
-                user.PasswordSalt = changedUser.PasswordSalt;
+                var newHash = _passwordHasher.GenerateHash(newPassword);
+                user.PasswordHash = newHash.Hash;
+                user.PasswordSalt = newHash.Salt;
                 user.Email = user.Email ?? changedUser.Email;
                 user.Name = changedUser.Name;
                 user._id = changedUser._id;

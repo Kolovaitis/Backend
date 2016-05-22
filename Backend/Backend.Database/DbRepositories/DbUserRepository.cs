@@ -25,7 +25,7 @@ namespace Backend.Database.DbRepositories
         public async Task ChangeCredentials(string password, UserEntity user)
         {
             var changedUser = await _context.users.Find(u => _passwordHasher.VerifyHash(password, u.PasswordHash, u.PasswordSalt)).FirstOrDefaultAsync();
-            if (_passwordHasher.VerifyHash(password, changedUser.PasswordHash, changedUser.PasswordSalt))
+            if (changedUser != null)
             {
                 user.PasswordHash = changedUser.PasswordHash;
                 user.PasswordSalt = changedUser.PasswordSalt;

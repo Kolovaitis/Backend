@@ -22,6 +22,44 @@ namespace Backend.Database.DbRepositories
             _passwordHasher = passwordHasher;
         }
 
+        public async Task ChangeCredentials(string oldPassword, string newPassword, UserEntity user)
+        {
+            var changedUser = await _context.users.Find(u => _passwordHasher.VerifyHash(oldPassword, u.PasswordHash, u.PasswordSalt)).FirstOrDefaultAsync();
+            if (changedUser != null)
+            {
+                if (newPassword != null)
+                {
+                    var newHash = _passwordHasher.GenerateHash(newPassword);
+                    user.PasswordHash = newHash.Hash;
+                    user.PasswordSalt = newHash.Salt;
+                } else
+                {
+                    user.PasswordHash = changedUser.PasswordHash;
+                    user.PasswordSalt = changedUser.PasswordSalt;
+                }
+                user.Email = user.Email ?? changedUser.Email;
+                user.Name = changedUser.Name;
+                user._id = changedUser._id;
+
+                _context.users.DeleteOne(u => u._id == changedUser._id);
+                _context.users.InsertOne(user);
+            }
+        }
+
+        public async Task ChangeInfo(UserEntity user)
+        {
+            var changedUser = await _context.users.Find(u => u.Email == user.Email).FirstOrDefaultAsync();
+
+            user.PasswordHash = changedUser.PasswordHash;
+            user.PasswordSalt = changedUser.PasswordSalt;
+            user.Email = changedUser.Email;
+            user.Name = user.Name ?? changedUser.Name;
+            user._id = changedUser._id;
+
+            _context.users.DeleteOne(u => u.Email == user.Email);
+            _context.users.InsertOne(user);
+        }
+
         public UserEntity GetUserByEmail(string email)
         {
             return _context.users.Find(u => u.Email == email).FirstOrDefault();

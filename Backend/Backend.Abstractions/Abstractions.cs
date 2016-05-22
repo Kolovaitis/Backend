@@ -22,6 +22,8 @@ namespace Backend.Abstractions
     public interface IUserRepository
     {
         UserEntity GetUserByEmail(string email);
-        Task Registration(UserEntity user); 
+        Task Registration(UserEntity user);
+        Task ChangeInfo(UserEntity user);
+        Task ChangeCredentials(string oldPassword, string newPassword, UserEntity user);
     }
 }

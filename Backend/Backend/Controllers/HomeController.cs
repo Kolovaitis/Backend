@@ -30,5 +30,19 @@ namespace Backend.Controllers
             _service.Registration(user);
             return Ok();
         }
+
+        [HttpPost, Route("changeInfo")]
+        public IHttpActionResult ChangeInfo(User user)
+        {
+            _service.ChangeInfo(user);
+            return Ok();
+        }
+
+        [HttpPost, Route("changeCredentials")]
+        public IHttpActionResult ChangeCredentials(User user)
+        {
+            _service.ChangeCredentials(user);
+            return Ok();
+        }
     }
 }

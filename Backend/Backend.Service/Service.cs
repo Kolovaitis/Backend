@@ -19,14 +19,26 @@ namespace Backend.Service
             _userRepository = userRepository;
         }
 
-        public Task ChangeCredentials(string oldPassword, User user)
+        public async Task ChangeCredentials(string oldPassword, User user)
         {
-            throw new NotImplementedException();
+            var entity = new UserEntity
+            {
+                Email = user.Email,
+                Name = user.Name
+            };
+            var newPassword = user.PasswordHash;
+            await _userRepository.ChangeCredentials(oldPassword,newPassword,entity);
         }
 
-        public Task ChangeInfo(User user)
+        public async Task ChangeInfo(User user)
         {
-            throw new NotImplementedException();
+            var entity = new UserEntity
+            {
+                Email = user.Email,
+                Name = user.Name
+                
+            };
+            await _userRepository.ChangeInfo(entity);
         }
 
         public User GetUserByEmail(string email)

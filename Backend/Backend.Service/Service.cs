@@ -19,6 +19,16 @@ namespace Backend.Service
             _userRepository = userRepository;
         }
 
+        public Task ChangeCredentials(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ChangeInfo(User user)
+        {
+            throw new NotImplementedException();
+        }
+
         public User GetUserByEmail(string email)
         {
             var user = _userRepository.GetUserByEmail(email);

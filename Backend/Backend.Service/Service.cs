@@ -44,6 +44,8 @@ namespace Backend.Service
         public User GetUserByEmail(User user)
         {
             var _user = _userRepository.GetUserByEmail(user.Email);
+            if (_user == null)
+                return new User();
             return new User { Email = _user.Email, Name = _user.Name, PasswordHash = _user.PasswordHash};
         }
 

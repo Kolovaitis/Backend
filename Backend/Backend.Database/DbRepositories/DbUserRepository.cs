@@ -37,7 +37,10 @@ namespace Backend.Database.DbRepositories
                     user.PasswordHash = changedUser.PasswordHash;
                     user.PasswordSalt = changedUser.PasswordSalt;
                 }
-                user.Email = user.Email ?? changedUser.Email;
+                if (_context.users.Find(u => u.Email == user.Email).FirstOrDefault() != null)
+                    user.Email = changedUser.Email;
+                else
+                    user.Email = user.Email ?? changedUser.Email;
                 user.Name = changedUser.Name;
                 user._id = changedUser._id;
 

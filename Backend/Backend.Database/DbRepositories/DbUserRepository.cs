@@ -46,6 +46,9 @@ namespace Backend.Database.DbRepositories
 
                 _context.users.DeleteOne(u => u._id == changedUser._id);
                 _context.users.InsertOne(user);
+            } else
+            {
+                throw new Exception("specific wildfowl: incorrect password");
             }
         }
 
@@ -71,7 +74,7 @@ namespace Backend.Database.DbRepositories
         public async Task Registration(UserEntity user)
         {
             if (_context.users.Find(u => u.Email == user.Email).FirstOrDefault() != null)
-                return;
+                throw new Exception("specific wildfowl: this user already exists");
             var hashResult = _passwordHasher.GenerateHash(user.PasswordHash);
             user.PasswordHash = hashResult.Hash;
             user.PasswordSalt = hashResult.Salt;

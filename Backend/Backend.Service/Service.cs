@@ -21,13 +21,20 @@ namespace Backend.Service
 
         public async Task ChangeCredentials(User user)
         {
+            if (_userRepository.GetUserByEmail(user.Email) != null)
+                throw new Exception("user with this email already exist");
             var entity = new UserEntity
             {
                 Email = user.Email,
                 Name = user.Name
             };
             var newPassword = user.PasswordHash;
-            await _userRepository.ChangeCredentials(user.OldPassword, newPassword,entity);
+            try {
+                await _userRepository.ChangeCredentials(user.OldPassword, newPassword, entity);
+            } catch (Exception e)
+            {
+                throw new Exception (e.Message);
+            }
         }
 
         public async Task ChangeInfo(User user)
@@ -45,7 +52,7 @@ namespace Backend.Service
         {
             var _user = _userRepository.GetUserByEmail(user.Email);
             if (_user == null)
-                return new User();
+                throw new Exception ("invalid email");
             return new User { Email = _user.Email, Name = _user.Name, PasswordHash = _user.PasswordHash};
         }
 
@@ -56,6 +63,8 @@ namespace Backend.Service
 
         public async Task Registration(User user)
         {
+            if (_userRepository.GetUserByEmail(user.Email) != null)
+                throw new Exception("user with this email already exist");
             await _userRepository.Registration(new UserEntity() { Email = user.Email, Name = user.Name, PasswordHash = user.PasswordHash, _id = new ObjectId() });
         }
     }

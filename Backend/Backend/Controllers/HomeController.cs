@@ -21,13 +21,23 @@ namespace Backend.Controllers
         [HttpPost, Route("getUser")]
         public IHttpActionResult GetUser(User user)
         {
-            return Ok(_service.GetUserByEmail(user));
+            try {
+                return Ok(_service.GetUserByEmail(user));
+            } catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost, Route("registration"), AllowAnonymous]
-        public IHttpActionResult Registration(User user)
+        public async Task<IHttpActionResult> Registration(User user)
         {
-            _service.Registration(user);
+            try {
+                await _service.Registration(user);
+            } catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
             return Ok();
         }
 
@@ -39,9 +49,14 @@ namespace Backend.Controllers
         }
 
         [HttpPost, Route("changeCredentials")]
-        public IHttpActionResult ChangeCredentials(User user)
+        public async Task<IHttpActionResult> ChangeCredentials(User user)
         {
-            _service.ChangeCredentials(user);
+            try {
+                await _service.ChangeCredentials(user);
+            } catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
             return Ok();
         }
     }

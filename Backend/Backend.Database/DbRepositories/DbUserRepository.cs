@@ -1,5 +1,4 @@
-﻿using Backend.Abstractions;
-using Backend.Database.DbContext;
+﻿using Backend.Database.DbContext;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using Backend.DbEntities;
 using MongoDB.Driver;
 using Backend.PasswordHasher;
+using Backend.RepositoryAbstractions;
 
 namespace Backend.Database.DbRepositories
 {

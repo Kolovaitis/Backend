@@ -1,4 +1,4 @@
-﻿using Backend.Abstractions;
+﻿using Backend.Models;
 using Backend.Service;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace Backend.Controllers
 {
     [Authorize]
     public class HomeController : ApiController
-    {
+    { 
         private IService _service;
         public HomeController(IService service)
         {
@@ -19,7 +19,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost, Route("getUser")]
-        public IHttpActionResult GetUser(User user)
+        public IHttpActionResult GetUser(UserOnlyEmailModel user)
         {
             try {
                 return Ok(_service.GetUserByEmail(user));
@@ -30,7 +30,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost, Route("registration"), AllowAnonymous]
-        public async Task<IHttpActionResult> Registration(User user)
+        public async Task<IHttpActionResult> Registration(UserRegistrationModel user)
         {
             try {
                 await _service.Registration(user);
@@ -42,14 +42,14 @@ namespace Backend.Controllers
         }
 
         [HttpPost, Route("changeInfo")]
-        public IHttpActionResult ChangeInfo(User user)
+        public IHttpActionResult ChangeInfo(UserChangeInfoModel user)
         {
             _service.ChangeInfo(user);
             return Ok();
         }
 
         [HttpPost, Route("changeCredentials")]
-        public async Task<IHttpActionResult> ChangeCredentials(User user)
+        public async Task<IHttpActionResult> ChangeCredentials(UserChangeCredentialsModel user)
         {
             try {
                 await _service.ChangeCredentials(user);

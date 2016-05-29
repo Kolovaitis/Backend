@@ -5,21 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Abstractions
+namespace Backend.RepositoryAbstractions
 {
-    public abstract class Entity
-    {
-        public string Name { get; set; }
-    }
-
-    public class User : Entity
-    {
-        public string OldPassword { get; set; }
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }
-
-    }
-
     public interface IUserRepository
     {
         UserEntity GetUserByEmail(string email);

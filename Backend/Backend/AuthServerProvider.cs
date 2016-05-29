@@ -1,5 +1,4 @@
-﻿using Backend.Abstractions;
-using Backend.PasswordHasher;
+﻿using Backend.PasswordHasher;
 using Backend.Service;
 using Microsoft.Owin.Security.OAuth;
 using System;

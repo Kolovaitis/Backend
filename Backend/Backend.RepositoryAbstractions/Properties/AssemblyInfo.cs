@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Backend.Abstractions")]
+[assembly: AssemblyTitle("Backend.RepositoryAbstractions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Backend.Abstractions")]
+[assembly: AssemblyProduct("Backend.RepositoryAbstractions")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("072f7f1b-431e-48d4-bdd8-c8bf3ea773a6")]
+[assembly: Guid("a218f9e4-786e-4335-81b1-1ee9c4f6a0da")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //

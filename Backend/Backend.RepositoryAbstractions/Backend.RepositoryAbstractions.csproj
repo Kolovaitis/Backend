@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{072F7F1B-431E-48D4-BDD8-C8BF3EA773A6}</ProjectGuid>
+    <ProjectGuid>{A218F9E4-786E-4335-81B1-1EE9C4F6A0DA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Backend.Abstractions</RootNamespace>
-    <AssemblyName>Backend.Abstractions</AssemblyName>
+    <RootNamespace>Backend.RepositoryAbstractions</RootNamespace>
+    <AssemblyName>Backend.RepositoryAbstractions</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstractions.cs" />
+    <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

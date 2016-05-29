@@ -76,10 +76,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Backend.Abstractions\Backend.Abstractions.csproj">
-      <Project>{072f7f1b-431e-48d4-bdd8-c8bf3ea773a6}</Project>
-      <Name>Backend.Abstractions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Backend.Configuration\Backend.Configuration.csproj">
       <Project>{f8534b3e-a5d1-4b76-891a-ba4f41e157cd}</Project>
       <Name>Backend.Configuration</Name>
@@ -91,6 +87,10 @@
     <ProjectReference Include="..\Backend.PasswordHasher\Backend.PasswordHasher.csproj">
       <Project>{24e0ebd5-b31d-4e69-ae87-b797eb5eaafb}</Project>
       <Name>Backend.PasswordHasher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Backend.RepositoryAbstractions\Backend.RepositoryAbstractions.csproj">
+      <Project>{a218f9e4-786e-4335-81b1-1ee9c4f6a0da}</Project>
+      <Name>Backend.RepositoryAbstractions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

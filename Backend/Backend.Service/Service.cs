@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Backend.Abstractions;
 using Backend.Database.DbRepositories;
 using Backend.DbEntities;
 using MongoDB.Bson;
+using Backend.RepositoryAbstractions;
+using Backend.Models;
 
 namespace Backend.Service
 {
@@ -19,14 +20,13 @@ namespace Backend.Service
             _userRepository = userRepository;
         }
 
-        public async Task ChangeCredentials(User user)
+        public async Task ChangeCredentials(UserChangeCredentialsModel user)
         {
             if (_userRepository.GetUserByEmail(user.Email) != null)
                 throw new Exception("user with this email already exist");
             var entity = new UserEntity
             {
                 Email = user.Email,
-                Name = user.Name
             };
             var newPassword = user.PasswordHash;
             try {
@@ -37,7 +37,7 @@ namespace Backend.Service
             }
         }
 
-        public async Task ChangeInfo(User user)
+        public async Task ChangeInfo(UserChangeInfoModel user)
         {
             var entity = new UserEntity
             {
@@ -48,12 +48,12 @@ namespace Backend.Service
             await _userRepository.ChangeInfo(entity);
         }
 
-        public User GetUserByEmail(User user)
+        public UserToGetModel GetUserByEmail(UserOnlyEmailModel user)
         {
             var _user = _userRepository.GetUserByEmail(user.Email);
             if (_user == null)
                 throw new Exception ("invalid email");
-            return new User { Email = _user.Email, Name = _user.Name, PasswordHash = _user.PasswordHash};
+            return new UserToGetModel { Email = _user.Email, Name = _user.Name};
         }
 
         public UserEntity GetUserEntityByEmail(string email)
@@ -61,7 +61,7 @@ namespace Backend.Service
             return _userRepository.GetUserByEmail(email);
         }
 
-        public async Task Registration(User user)
+        public async Task Registration(UserRegistrationModel user)
         {
             if (_userRepository.GetUserByEmail(user.Email) != null)
                 throw new Exception("user with this email already exist");

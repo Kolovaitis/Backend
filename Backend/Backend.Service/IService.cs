@@ -1,5 +1,5 @@
-﻿using Backend.Abstractions;
-using Backend.DbEntities;
+﻿using Backend.DbEntities;
+using Backend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,10 @@ namespace Backend.Service
 {
     public interface IService
     {
-        User GetUserByEmail(User user);
+        UserToGetModel GetUserByEmail(UserOnlyEmailModel user);
         UserEntity GetUserEntityByEmail(string email);
-        Task Registration(User user);
-        Task ChangeInfo(User user);
-        Task ChangeCredentials(User user);
+        Task Registration(UserRegistrationModel user);
+        Task ChangeInfo(UserChangeInfoModel user);
+        Task ChangeCredentials(UserChangeCredentialsModel user);
     }
 }

@@ -1,6 +1,6 @@
-﻿using Backend.Abstractions;
-using Backend.Database.DbContext;
+﻿using Backend.Database.DbContext;
 using Backend.Database.DbRepositories;
+using Backend.RepositoryAbstractions;
 using Ninject.Modules;
 using System;
 using System.Collections.Generic;

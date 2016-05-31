@@ -1,11 +1,10 @@
-# this is an example of the Uber API
 # as a demonstration of an API spec in YAML
 swagger: '2.0'
 info:
   title: Loliboo API
   version: "1.0.0"
 # the domain of the service
-host: api.uber.com
+host: ec2-54-93-123-90.eu-central-1.compute.amazonaws.com
 # array of all schemes that your API supports
 schemes:
   - http
@@ -21,7 +20,7 @@ paths:
         The registration endpoint registers new user.
         
       parameters:
-        - name: User
+        - name: model
           in: body
           required: true
           schema:
@@ -38,16 +37,14 @@ paths:
       description: |
         The login endpoint logins user
       parameters:
-        - name: Credentials
+        - name: model
           in: body
           required: true
           schema: 
-             $ref: '#/definitions/CredentialsModel'
+             $ref: '#/definitions/UserLoginModel'
       responses:
         200:
-          description: Token
-          schema: 
-             $ref: '#/definitions/TokenModel'
+          description: Returns nothing
         default:
           schema:
             $ref: '#/definitions/Error'
@@ -57,7 +54,7 @@ paths:
       summary: Changes Credentials
       description: Allows User to change his Credentials (such as Email and Password)
       parameters:
-        - name: UserInfo
+        - name: model
           in: body
           description: Only OldPassword is required
           schema: 
@@ -80,7 +77,7 @@ paths:
       tags:
         - User
       parameters:
-        - name: UserEmail
+        - name: model
           in: body
           schema: 
             $ref: '#/definitions/UserOnlyEmailModel'
@@ -90,11 +87,39 @@ paths:
         200:
           description: Profile information for a user
           schema:
-            $ref: '#/definitions/UserToGetModel'
+            $ref: '#/definitions/UserToSendModel'
         400:
           description: User doesn't exist
           schema:
             $ref: '#/definitions/Error'
+      security: 
+       - LolibooAuth: []
+  /myProfile:
+    get:
+      summary: Returns current User
+      description: Returns information about the current User
+      tags:
+        - User
+      responses:
+        200:
+          description: Profile information for a user
+          schema:
+            $ref: '#/definitions/UserToSendModel'
+        400:
+          description: User doesn't exist
+          schema:
+            $ref: '#/definitions/Error'
+      security: 
+       - LolibooAuth: []
+  /logOff:
+    get:
+      summary: Logs off
+      description: Logs User off
+      tags:
+        - User
+      responses:
+        200:
+          description: Logged off
       security: 
        - LolibooAuth: []
   /changeInfo:
@@ -102,7 +127,7 @@ paths:
       summary: Changes Info
       description: Allows the user to change his information besides Email and Password
       parameters:
-        - name: User
+        - name: model
           in: body
           description: Only Email is required
           schema:
@@ -118,20 +143,17 @@ paths:
         - LolibooAuth: []
 securityDefinitions:
   LolibooAuth:
-    type: oauth2
-    flow: password
-    description: Authentication using tokens. You should put token after key word 'Bearer' in the property 'Authorization' in header. Example -
-     'Bearer AQAAANCMnd8BFdERjHoAwE_ClsBAAAAj__ylFCqMkS86akSPELkpgAAAAACAAAAAAAQZgAAAAEAACAAAAAHiljO0w4bIxejcvm3dJ3nVSjhqx1f7PEMPwd0feUvgAAAAAOgAAAAAIAACAAAABW9VAXOUKQh74Kw0_4XUHeJZacXOBrECQA1Jm4CCyNFsAAAAD75E...'
-    tokenUrl: http://ec2-54-93-123-90.eu-central-1.compute.amazonaws.com/login
+    type: basic
+    description: Authentication using black magic
 definitions:
   UserChangeCredentialsModel:
     type: object
     properties:
-      Email:
+      NewEmail:
         type: string
       OldPassword:
         type: string
-      PasswordHash:
+      NewPassword:
         type: string
   Error:
     type: object
@@ -143,7 +165,7 @@ definitions:
         type: string
       fields:
         type: string
-  UserToGetModel:
+  UserToSendModel:
     type: object
     properties:
       Email: 
@@ -153,40 +175,26 @@ definitions:
   UserRegistrationModel:
     type: object
     properties:
-      Name:
-        type: string
       Email:
         type: string
-      PasswordHash:
+      Name:
+        type: string
+      Password:
         type: string  
   UserChangeInfoModel:
     type: object
     properties:
-      Email: 
-        type: string
       Name:
         type: string
-  CredentialsModel:
+  UserLoginModel:
     type: object
     properties:
-      grant_type:
+      Password:
         type: string
-        description: must be 'password'
-      email:
-        type: string
-      password:
+      Email:
         type: string
   UserOnlyEmailModel:
     type: object
     properties:
       Email:
-        type: string
-  TokenModel:
-    type: object
-    properties:
-      access_token:
-        type: string
-      token_type:
-        type: string
-      expires_in:
         type: string

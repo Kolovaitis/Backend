@@ -13,6 +13,10 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security.Cookies;
+using Backend.Models;
 
 namespace Backend
 {
@@ -34,7 +38,7 @@ namespace Backend
 
                 configuration.MapHttpAttributeRoutes();
                 configuration.Formatters.Remove(configuration.Formatters.XmlFormatter);
-
+                EnsureAuthIndexes.Exist();
                 builder.Use(async (context, next) =>
                 {
                     var request = context.Request;
@@ -54,18 +58,20 @@ namespace Backend
                     Console.WriteLine($"<< [{request.RemoteIpAddress}] HTTP {response.StatusCode} {((HttpStatusCode)response.StatusCode)}: {response.ContentLength} bytes");
                 });
 
-                var kernel = createKernel();
+                builder.CreatePerOwinContext(ApplicationIdentityContext.Create);
+                builder.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
-                builder.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
+                builder.UseCookieAuthentication(new CookieAuthenticationOptions
                 {
-                    AllowInsecureHttp = true,
-                    TokenEndpointPath = new PathString("/login"),
-                    AccessTokenExpireTimeSpan = TimeSpan.FromHours(24),
-                    Provider = kernel.Get<IOAuthAuthorizationServerProvider>()
+                    AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                    Provider = new CookieAuthenticationProvider
+                    {
+                        OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                            validateInterval: TimeSpan.FromMinutes(30),
+                            regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                    }
                 });
 
-
-                builder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
                 builder.UseNinjectMiddleware(createKernel);
                 builder.UseNinjectWebApi(configuration);
             });

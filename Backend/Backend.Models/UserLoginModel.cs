@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Backend.Models
 {
-    public class UserToGetModel
+    public class UserLoginModel
     {
-        public string Name { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

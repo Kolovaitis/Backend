@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Service", "Backend.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.DbEntities", "Backend.DbEntities\Backend.DbEntities.csproj", "{08D860EF-A10D-4B6E-8923-41944DCAB35A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.PasswordHasher", "Backend.PasswordHasher\Backend.PasswordHasher.csproj", "{24E0EBD5-B31D-4E69-AE87-B797EB5EAAFB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Configuration", "Backend.Configuration\Backend.Configuration.csproj", "{F8534B3E-A5D1-4B76-891A-BA4F41E157CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Models", "Backend.Models\Backend.Models.csproj", "{60A2BE25-3872-488A-A82B-2B304E3E7D00}"
@@ -41,10 +39,6 @@ Global
 		{08D860EF-A10D-4B6E-8923-41944DCAB35A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08D860EF-A10D-4B6E-8923-41944DCAB35A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08D860EF-A10D-4B6E-8923-41944DCAB35A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{24E0EBD5-B31D-4E69-AE87-B797EB5EAAFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24E0EBD5-B31D-4E69-AE87-B797EB5EAAFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24E0EBD5-B31D-4E69-AE87-B797EB5EAAFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{24E0EBD5-B31D-4E69-AE87-B797EB5EAAFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F8534B3E-A5D1-4B76-891A-BA4F41E157CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F8534B3E-A5D1-4B76-891A-BA4F41E157CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8534B3E-A5D1-4B76-891A-BA4F41E157CD}.Release|Any CPU.ActiveCfg = Release|Any CPU

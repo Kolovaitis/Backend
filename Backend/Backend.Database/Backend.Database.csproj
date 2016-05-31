@@ -68,7 +68,6 @@
     <Compile Include="DatabaseModule.cs" />
     <Compile Include="DbContext\MongoDbContext.cs" />
     <Compile Include="DbContext\MongoDbContextFactory.cs" />
-    <Compile Include="DbRepositories\DbUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,14 +83,13 @@
       <Project>{08d860ef-a10d-4b6e-8923-41944dcab35a}</Project>
       <Name>Backend.DbEntities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Backend.PasswordHasher\Backend.PasswordHasher.csproj">
-      <Project>{24e0ebd5-b31d-4e69-ae87-b797eb5eaafb}</Project>
-      <Name>Backend.PasswordHasher</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Backend.RepositoryAbstractions\Backend.RepositoryAbstractions.csproj">
       <Project>{a218f9e4-786e-4335-81b1-1ee9c4f6a0da}</Project>
       <Name>Backend.RepositoryAbstractions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DbRepositories\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

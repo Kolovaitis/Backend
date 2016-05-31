@@ -29,7 +29,7 @@ paths:
         200:
           description: Returns nothing
         400:
-          description: Something is null or  user with these parameters already exists
+          description: User with this email already exist
           schema:
             $ref: '#/definitions/Error'
   /login:
@@ -45,10 +45,10 @@ paths:
       responses:
         200:
           description: Returns nothing
-        default:
+        400:
           schema:
             $ref: '#/definitions/Error'
-          description: Password is incorrect or user doesn't exist
+          description: Invalid email or password
   /changeCredentials:
     post:
       summary: Changes Credentials
@@ -65,7 +65,11 @@ paths:
         200:
           description: Changes either email, password or both
         400:
-          description: Incorrect password
+          description: Incorrect password or user with this email already exist
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Authorization has been denied for this request
           schema:
             $ref: '#/definitions/Error'
       security: 
@@ -89,7 +93,11 @@ paths:
           schema:
             $ref: '#/definitions/UserToSendModel'
         400:
-          description: User doesn't exist
+          description: User with this email doesn't exist
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Authorization has been denied for this request
           schema:
             $ref: '#/definitions/Error'
       security: 
@@ -105,8 +113,8 @@ paths:
           description: Profile information for a user
           schema:
             $ref: '#/definitions/UserToSendModel'
-        400:
-          description: User doesn't exist
+        401:
+          description: Authorization has been denied for this request
           schema:
             $ref: '#/definitions/Error'
       security: 
@@ -120,6 +128,10 @@ paths:
       responses:
         200:
           description: Logged off
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
       security: 
        - LolibooAuth: []
   /changeInfo:
@@ -137,6 +149,10 @@ paths:
       responses:
         200:
           description: Changed info for the user
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: Unexpected error
       security: 

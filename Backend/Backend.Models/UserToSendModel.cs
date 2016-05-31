@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Backend.Models
 {
-    public class UserRegistrationModel
+    public class UserToSendModel
     {
         public string Email { get; set; }
         public string Name { get; set; }
-        public string Password { get; set; }
     }
 }

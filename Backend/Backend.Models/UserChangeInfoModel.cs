@@ -8,7 +8,6 @@ namespace Backend.Models
 {
     public class UserChangeInfoModel
     {
-        public string Email { get; set; }
         public string Name { get; set; }
     }
 }

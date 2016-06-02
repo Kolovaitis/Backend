@@ -15,12 +15,6 @@ namespace Backend
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
         {
-            PasswordValidator = new PasswordValidator
-            {
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true
-            };
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
@@ -36,7 +30,9 @@ namespace Backend
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireDigit = true,
+                RequireLowercase = true,
+                RequireUppercase = true,
+                RequireDigit = true
             };
 
             return manager;

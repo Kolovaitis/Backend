@@ -42,6 +42,17 @@ namespace Backend.Controllers
                 return BadRequest("user with this email already exist");
             var user = new ApplicationUser { UserName = model.Name, Email = model.Email };
             var result = await UserManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                var errorsEnumerator = result.Errors.GetEnumerator();
+                errorsEnumerator.MoveNext();
+                var errorString = errorsEnumerator.Current;
+                while (errorsEnumerator.MoveNext())
+                {
+                    errorString += (" " + errorsEnumerator.Current);
+                }
+                return BadRequest(errorString);
+            }
             return Ok();
         }
 

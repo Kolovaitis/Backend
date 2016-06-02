@@ -34,7 +34,6 @@ namespace Backend
                 RequireUppercase = true,
                 RequireDigit = true
             };
-
             return manager;
         }
     }

@@ -1,4 +1,4 @@
-﻿using Backend.Models;
+﻿
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Owin.Security;
@@ -6,6 +6,8 @@ using System.Net.Http;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Backend.Models;
+using Backend.Models.UserModels;
 
 namespace Backend.Controllers
 {

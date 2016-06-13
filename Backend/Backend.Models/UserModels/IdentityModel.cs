@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AspNet.Identity.MongoDB;
 using Microsoft.AspNet.Identity;
 
-namespace Backend.Models
+namespace Backend.Models.UserModels
 {
     public class ApplicationUser : IdentityUser
     {

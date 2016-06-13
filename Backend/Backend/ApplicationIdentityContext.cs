@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AspNet.Identity.MongoDB;
 using Backend.Models;
 using MongoDB.Driver;
+using Backend.Models.UserModels;
 
 namespace Backend
 {

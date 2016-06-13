@@ -17,6 +17,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Backend.Models;
+using Backend.Models.UserModels;
 
 namespace Backend
 {

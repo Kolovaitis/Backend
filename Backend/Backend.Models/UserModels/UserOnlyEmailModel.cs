@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Models
+namespace Backend.Models.UserModels
 {
-    public class UserRegistrationModel
+    public class UserOnlyEmailModel
     {
         public string Email { get; set; }
-        public string Name { get; set; }
-        public string Password { get; set; }
     }
 }

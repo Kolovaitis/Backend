@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Models
+namespace Backend.Models.UserModels
 {
-    public class UserToSendModel
+    public class UserChangeInfoModel
     {
-        public string Email { get; set; }
         public string Name { get; set; }
     }
 }

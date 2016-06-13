@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Models
+namespace Backend.Models.UserModels
 {
     public class UserLoginModel
     {

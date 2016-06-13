@@ -60,18 +60,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IdentityModels.cs" />
+    <Compile Include="ProjectModels\ProjectOnlyNameModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserChangeCredentialsModel.cs" />
-    <Compile Include="UserChangeInfoModel.cs" />
-    <Compile Include="UserLoginModel.cs" />
-    <Compile Include="UserOnlyEmailModel.cs" />
-    <Compile Include="UserRegistrationModel.cs" />
-    <Compile Include="UserToSendModel.cs" />
+    <Compile Include="UserModels\IdentityModel.cs" />
+    <Compile Include="UserModels\UserChangeCredentialsModel.cs" />
+    <Compile Include="UserModels\UserChangeInfoModel.cs" />
+    <Compile Include="UserModels\UserLoginModel.cs" />
+    <Compile Include="UserModels\UserOnlyEmailModel.cs" />
+    <Compile Include="UserModels\UserRegistrationModel.cs" />
+    <Compile Include="UserModels\UserToSendModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

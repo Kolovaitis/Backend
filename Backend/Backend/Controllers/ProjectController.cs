@@ -30,11 +30,70 @@ namespace Backend.Controllers
             _service = service;
         }
 
-        [HttpGet, Route("addProject")]
+        [HttpPost, Route("addProject")]
         public async Task<IHttpActionResult> AddProject(ProjectOnlyNameModel model)
         {
-            //_service.AddProject(await UserManager.FindByIdAsync(User.Identity.GetUserId()), model.Name);
+            return Ok(/*_service.AddProject(await UserManager.FindByIdAsync(User.Identity.GetUserId()), model);*/);
+        }
+
+        [HttpGet, Route("getMyProjects")]
+        public async Task<IHttpActionResult> GetMyProjects()
+        {
+            return Ok(/*_service.getMyProjects(User.Identity.GetUserId());*/);
+        }
+
+        [HttpPost, Route("changeProject")]
+        public async Task<IHttpActionResult> ChangeProject(ChangeProjectModel model)
+        {
+            /*_service.ChangeProject(model);*/
             return Ok();
+        }
+
+        [HttpPost, Route("deleteProject")]
+        public async Task<IHttpActionResult> DeleteProject(DeleteProjectModel model)
+        {
+            /*_service.DeleteProject(model);*/
+            return Ok();
+        }
+
+        [HttpPost, Route("inviteUserToProject")]
+        public async Task<IHttpActionResult> InviteUserToProject(InviteUserToProjectModel model)
+        {
+            /*_service.InviteUserToProject(model);*/
+            return Ok();
+        }
+
+        [HttpPost, Route("acceptInvitation")]
+        public async Task<IHttpActionResult> AcceptInvitation(AcceptInvitationModel model)
+        {
+            /*_service.AcceptInvitation(model);*/
+            return Ok();
+        }
+
+        [HttpPost, Route("rejectInvitation")]
+        public async Task<IHttpActionResult> RejectInvitation(RejectInvitationModel model)
+        {
+            /*_service.RejectInvitation(model);*/
+            return Ok();
+        }
+
+        [HttpGet, Route("getAllInvitations")]
+        public async Task<IHttpActionResult> GetAllInvitations()
+        {
+            return Ok(/*_service.GetAllInvitations(User.Identity.GetUserId());*/);
+        }
+
+        [HttpPost, Route("deleteUserFromProject")]
+        public async Task<IHttpActionResult> DeleteUserFromProject(DeleteUserFromProjectModel model)
+        {
+            /*_service.DeleteUserFromProject(model);*/
+            return Ok();
+        }
+
+        [HttpPost, Route("getProject")]
+        public async Task<IHttpActionResult> GetProject(GetProjectModel model)
+        {
+            return Ok(/*_service.DeleteUserFromProject(model);*/);
         }
     }
 }

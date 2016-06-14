@@ -9,7 +9,8 @@ namespace Backend.Models.ProjectModels
 {
     public class InviteUserToProjectModel
     {
-        public string UserEmail { get; set; }
+        //public string EmailSender { get; set; }
+        public string EmailRecipient { get; set; }
         public ObjectId ProjectId { get; set; }
     }
 }

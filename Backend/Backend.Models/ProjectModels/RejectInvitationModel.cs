@@ -9,6 +9,7 @@ namespace Backend.Models.ProjectModels
 {
     public class RejectInvitationModel
     {
-        public ObjectId Id { get; set; }
+        public ObjectId ProjectId { get; set; }
+        public string UserEmail { get; set; }
     }
 }

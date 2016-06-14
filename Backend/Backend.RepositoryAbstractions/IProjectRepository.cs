@@ -23,6 +23,6 @@ namespace Backend.RepositoryAbstractions
 
         Task AcceptInvitationToProjectAsync(ObjectId projectId, string userEmail);
         Task RejectInvitationToProjectAsync(ObjectId projectId, string userEmail);
-        List<ObjectId> GetAllInvitationsAsync(string userEmail);
+        Task<List<ObjectId>> GetAllInvitationsAsync(string userEmail);
     }
 }

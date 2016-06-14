@@ -9,7 +9,7 @@ namespace Backend.DbEntities
 {
     public class UserProjectMembership
     {
-        public ObjectId UserId { get; set; }
+        public string UserEmail{ get; set; }
         public ObjectId ProjectId { get; set; }
         public bool IsVerified { get; set; }
     }

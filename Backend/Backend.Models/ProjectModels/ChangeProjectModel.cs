@@ -9,7 +9,7 @@ namespace Backend.Models.ProjectModels
 {
     public class ChangeProjectModel
     {
-        public ObjectId Id { get; set; }
+        public ObjectId ProjectId { get; set; }
         public string Name { get; set; }
     }
 }

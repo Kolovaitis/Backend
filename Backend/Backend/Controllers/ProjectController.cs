@@ -31,15 +31,16 @@ namespace Backend.Controllers
         }
 
         [HttpPost, Route("addProject")]
-        public async Task<IHttpActionResult> AddProject(ProjectOnlyNameModel model)
+        public async Task<IHttpActionResult> AddProject(AddProjectModel model)
         {
-            return Ok(/*_service.AddProject(await UserManager.FindByIdAsync(User.Identity.GetUserId()), model);*/);
+            model.UserEmail = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email;
+            return Ok(/*_service.AddProject(model);*/);
         }
 
         [HttpGet, Route("getMyProjects")]
         public async Task<IHttpActionResult> GetMyProjects()
         {
-            return Ok(/*_service.getMyProjects(User.Identity.GetUserId());*/);
+            return Ok(/*_service.getMyProjects((await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email);*/);
         }
 
         [HttpPost, Route("changeProject")]
@@ -59,6 +60,7 @@ namespace Backend.Controllers
         [HttpPost, Route("inviteUserToProject")]
         public async Task<IHttpActionResult> InviteUserToProject(InviteUserToProjectModel model)
         {
+            //model.EmailSender = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email;
             /*_service.InviteUserToProject(model);*/
             return Ok();
         }
@@ -66,6 +68,7 @@ namespace Backend.Controllers
         [HttpPost, Route("acceptInvitation")]
         public async Task<IHttpActionResult> AcceptInvitation(AcceptInvitationModel model)
         {
+            model.UserEmail = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email;
             /*_service.AcceptInvitation(model);*/
             return Ok();
         }
@@ -73,6 +76,7 @@ namespace Backend.Controllers
         [HttpPost, Route("rejectInvitation")]
         public async Task<IHttpActionResult> RejectInvitation(RejectInvitationModel model)
         {
+            model.UserEmail = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email;
             /*_service.RejectInvitation(model);*/
             return Ok();
         }
@@ -80,7 +84,7 @@ namespace Backend.Controllers
         [HttpGet, Route("getAllInvitations")]
         public async Task<IHttpActionResult> GetAllInvitations()
         {
-            return Ok(/*_service.GetAllInvitations(User.Identity.GetUserId());*/);
+            return Ok(/*_service.GetAllInvitations((await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email);*/);
         }
 
         [HttpPost, Route("deleteUserFromProject")]

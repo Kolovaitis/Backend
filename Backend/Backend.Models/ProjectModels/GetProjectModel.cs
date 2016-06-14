@@ -9,6 +9,6 @@ namespace Backend.Models.ProjectModels
 {
     public class GetProjectModel
     {
-        public ObjectId Id { get; set; }
+        public ObjectId ProjectId { get; set; }
     }
 }

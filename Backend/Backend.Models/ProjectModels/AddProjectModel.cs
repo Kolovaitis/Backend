@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Backend.Models.ProjectModels
 {
-    public class ProjectOnlyNameModel
+    public class AddProjectModel
     {
         public string Name { get; set; }
+        public string UserEmail { get; set; }
     }
 }

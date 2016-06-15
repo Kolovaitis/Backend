@@ -17,11 +17,13 @@ namespace Backend.Database.DbRepositories
     {
         private IMongoCollection<Project> _projects;
         private IMongoCollection<UserProjectMembership> _memberships;
-        public ProjectRepository()
+        private readonly MongoDbContext _context;
+
+        public ProjectRepository(IDbContextFactory<MongoDbContext> contextFactory)
         {
-            var database = new MongoClient().GetDatabase("loliboo");
-            _projects = database.GetCollection<Project>(nameof(Project));
-            _memberships = database.GetCollection<UserProjectMembership>(nameof(UserProjectMembership));
+            _context = contextFactory.Create();
+            _projects = _context.Projects;
+            _memberships = _context.UserProjectMembership;
         }
         public async Task AcceptInvitationToProjectAsync(ObjectId projectId, string userEmail)
         {

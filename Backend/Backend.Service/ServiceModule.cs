@@ -1,4 +1,5 @@
-﻿using Ninject.Modules;
+﻿using Backend.Service.ProjectService;
+using Ninject.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Backend.Service
     {
         public override void Load()
         {
-            Bind<IService>().To<Service>();
+            Bind<IProjectService>().To<ProjectService.ProjectService>();
         }
     }
 }

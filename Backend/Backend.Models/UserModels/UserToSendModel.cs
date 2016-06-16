@@ -9,6 +9,6 @@ namespace Backend.Models.UserModels
     public class UserToSendModel
     {
         public string Email { get; set; }
-        public string Name { get; set; }
+        public string FullName { get; set; }
     }
 }

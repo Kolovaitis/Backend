@@ -8,6 +8,7 @@ namespace Backend
         {
             var context = ApplicationIdentityContext.Create();
             IndexChecks.EnsureUniqueIndexOnEmail(context.Users);
+            IndexChecks.EnsureUniqueIndexOnUserName(context.Users);
         }
     }
 }

@@ -40,9 +40,7 @@ namespace Backend.Controllers
         [System.Web.Http.HttpPost, System.Web.Http.Route("registration"), System.Web.Http.AllowAnonymous, ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> Registration(UserRegistrationModel model)
         {
-            if (await UserManager.FindByEmailAsync(model.Email) != null)
-                return BadRequest("user with this email already exist");
-            var user = new ApplicationUser { UserName = model.Name, Email = model.Email };
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FullName = model.Name };
             var result = await UserManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
@@ -70,7 +68,7 @@ namespace Backend.Controllers
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (model.Name != null)
-                user.UserName = model.Name;
+                user.FullName = model.Name;
             await UserManager.UpdateAsync(user);
             return Ok();
         }
@@ -101,14 +99,14 @@ namespace Backend.Controllers
             var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
                 return BadRequest("invalid email");
-            return Ok(new UserToSendModel { Email = user.Email, Name = user.UserName });
+            return Ok(new UserToSendModel { Email = user.Email, FullName = user.FullName });
         }
 
         [System.Web.Http.HttpGet, System.Web.Http.Route("myProfile"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> MyProfile()
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            return Ok(new UserToSendModel { Email = user.Email, Name = user.UserName });
+            return Ok(new UserToSendModel { Email = user.Email, FullName = user.FullName });
         }
 
         private IAuthenticationManager AuthenticationManager

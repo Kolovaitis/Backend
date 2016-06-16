@@ -77,18 +77,22 @@ namespace Backend.Controllers
         public async Task<IHttpActionResult> ChangeCredentials(UserChangeCredentialsModel model)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user != null && await UserManager.CheckPasswordAsync(user, model.OldPassword))
+            if (user != null)
             {
-                if (model.NewEmail != null)
+                if (await UserManager.CheckPasswordAsync(user, model.OldPassword))
                 {
-                    if (await UserManager.FindByEmailAsync(model.NewEmail) != null)
-                        return BadRequest("user with this email already exist");
-                    user.Email = model.NewEmail;
-                    await UserManager.UpdateAsync(user);
+                    if (model.NewEmail != null)
+                    {
+                        if (await UserManager.FindByEmailAsync(model.NewEmail) != null)
+                            return BadRequest("user with this email already exist");
+                        user.Email = model.NewEmail;
+                        user.UserName = model.NewEmail;
+                        await UserManager.UpdateAsync(user);
+                    }
+                    if (model.NewPassword != null)
+                        await UserManager.ChangePasswordAsync(user.Id, model.OldPassword, model.NewPassword);
+                    return Ok();
                 }
-                if (model.NewPassword != null)
-                    await UserManager.ChangePasswordAsync(user.Id, model.OldPassword, model.NewPassword);
-                return Ok();
             }
             return BadRequest("invalid password");
         }

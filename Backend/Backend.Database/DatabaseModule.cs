@@ -1,4 +1,6 @@
 ﻿using Backend.Database.DbContext;
+using Backend.Database.DbRepositories;
+using Backend.RepositoryAbstractions;
 using Ninject.Modules;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ namespace Backend.Database
         public override void Load()
         {
             Bind<IDbContextFactory<MongoDbContext>>().To<MongoDbContextFactory>();
+            Bind<IProjectRepository>().To<ProjectRepository>();
         }
     }
 }

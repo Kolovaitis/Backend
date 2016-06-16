@@ -34,12 +34,14 @@ namespace Backend.Controllers
                 AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, userIdentity);
                 return Ok();
             }
-            return BadRequest("invalid email or password");
+            return BadRequest("Invalid email or password");
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("registration"), System.Web.Http.AllowAnonymous, ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> Registration(UserRegistrationModel model)
         {
+            if (await UserManager.FindByEmailAsync(model.Email) != null)
+                return BadRequest("User with this email already exist");
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FullName = model.Name };
             var result = await UserManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
@@ -82,16 +84,29 @@ namespace Backend.Controllers
                     if (model.NewEmail != null)
                     {
                         if (await UserManager.FindByEmailAsync(model.NewEmail) != null)
-                            return BadRequest("user with this email already exist");
+                            return BadRequest("User with this email already exist");
                         user.Email = model.NewEmail;
                         user.UserName = model.NewEmail;
                         await UserManager.UpdateAsync(user);
                     }
-                    if (model.NewPassword != null)
-                        await UserManager.ChangePasswordAsync(user.Id, model.OldPassword, model.NewPassword);
+                if (model.NewPassword != null)
+                {
+                    var result = await UserManager.ChangePasswordAsync(user.Id, model.OldPassword, model.NewPassword);
+                    if (!result.Succeeded)
+                    {
+                        var errorsEnumerator = result.Errors.GetEnumerator();
+                        errorsEnumerator.MoveNext();
+                        var errorString = errorsEnumerator.Current;
+                        while (errorsEnumerator.MoveNext())
+                        {
+                            errorString += (" " + errorsEnumerator.Current);
+                        }
+                        return BadRequest(errorString);
+                    }
+                }
                     return Ok();
             }
-            return BadRequest("invalid password");
+            return BadRequest("Invalid password");
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("getUser"), ValidateAntiForgeryToken]
@@ -99,15 +114,15 @@ namespace Backend.Controllers
         {
             var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
-                return BadRequest("invalid email");
-            return Ok(new UserToSendModel { Email = user.Email, FullName = user.FullName });
+                return BadRequest("Invalid email");
+            return Ok(new UserToSendModel { Email = user.Email, Name = user.FullName });
         }
 
         [System.Web.Http.HttpGet, System.Web.Http.Route("myProfile"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> MyProfile()
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            return Ok(new UserToSendModel { Email = user.Email, FullName = user.FullName });
+            return Ok(new UserToSendModel { Email = user.Email, Name = user.FullName });
         }
 
         private IAuthenticationManager AuthenticationManager

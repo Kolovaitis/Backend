@@ -24,7 +24,8 @@ namespace Backend
 
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
-                AllowOnlyAlphanumericUserNames = false
+                AllowOnlyAlphanumericUserNames = false,
+                RequireUniqueEmail = true
             };
 
             manager.PasswordValidator = new PasswordValidator

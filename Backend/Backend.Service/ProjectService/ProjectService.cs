@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using Backend.Models.ProjectModels;
+using Backend.DbEntities;
 
 namespace Backend.Service.ProjectService
 {
@@ -18,54 +19,72 @@ namespace Backend.Service.ProjectService
             _projectRepository = projectRepository;
         }
 
-        public Task AcceptInvitation(AcceptInvitationModel model)
+        public async Task AcceptInvitation(AcceptInvitationModel model)
         {
-            throw new NotImplementedException();
+            await _projectRepository.AcceptInvitationToProjectAsync(model.ProjectId, model.UserEmail);
         }
 
-        public Task<ObjectId> AddProject(AddProjectModel model)
+        public async Task<ObjectId> AddProject(AddProjectModel model)
         {
-            throw new NotImplementedException();
+            var id = ObjectId.GenerateNewId();
+            if (_projectRepository.GetProjectAsync(id).Result != null) //или нужно так: (_projectRepository.GetProjectAsync(id).IsCompleted)?
+            {
+                throw new Exception("Project already exists");
+            }
+            var project = new Project
+            {
+                Id = id,
+                Name = model.Name,
+            };
+            await _projectRepository.AddProjectAsync(project);
+            await _projectRepository.InviteUserToProjectAsync(id, model.UserEmail);
+            await _projectRepository.AcceptInvitationToProjectAsync(id, model.UserEmail);
+            return id;
         }
 
-        public Task ChangeProject(ChangeProjectModel model)
+        public async Task ChangeProject(ChangeProjectModel model)
         {
-            throw new NotImplementedException();
+            var project = (await _projectRepository.GetProjectAsync(model.ProjectId));
+            project.Name = model.Name;
+            await _projectRepository.ChangeProjectAsync(project);
         }
 
-        public Task DeleteProject(DeleteProjectModel model)
+        public async Task DeleteProject(DeleteProjectModel model)
         {
-            throw new NotImplementedException();
+            await _projectRepository.DeleteProjectAsync(model.ProjectId);
         }
 
-        public Task DeleteUserFromProject(DeleteUserFromProjectModel model)
+        public async Task DeleteUserFromProject(DeleteUserFromProjectModel model)
         {
-            throw new NotImplementedException();
+            await _projectRepository.DeleteUserFromProjectAsync(model.ProjectId, model.UserEmail);
         }
 
-        public Task<ICollection<InvitationModel>> GetAllInvitations(string Email)
+        public async Task<ICollection<InvitationModel>> GetAllInvitations(string Email)
         {
-            throw new NotImplementedException();
+            return (await _projectRepository.GetAllInvitationsAsync(Email))
+                .Select(g => new InvitationModel { ProjectId = g}).ToList();
         }
 
-        public Task<ICollection<ProjectToSendModel>> getMyProjects(string Email)
+        public async Task<ICollection<ProjectToSendModel>> getMyProjects(string Email)
         {
-            throw new NotImplementedException();
+            return (await _projectRepository.GetProjectsByUserAsync(Email))
+                .Select(g => new ProjectToSendModel { ProjectId = g.Id, Name = g.Name }).ToList();
         }
 
-        public Task<ProjectToSendModel> GetProject(GetProjectModel model)
+        public async Task<ProjectToSendModel> GetProject(GetProjectModel model)
         {
-            throw new NotImplementedException();
+            var project = (await _projectRepository.GetProjectAsync(model.ProjectId));
+            return new ProjectToSendModel { ProjectId = project.Id, Name = project.Name };
         }
 
-        public Task InviteUserToProject(InviteUserToProjectModel model)
+        public async Task InviteUserToProject(InviteUserToProjectModel model)
         {
-            throw new NotImplementedException();
+            await _projectRepository.InviteUserToProjectAsync(model.ProjectId, model.EmailRecipient);
         }
 
-        public Task RejectInvitation(RejectInvitationModel model)
+        public async Task RejectInvitation(RejectInvitationModel model)
         {
-            throw new NotImplementedException();
+            await _projectRepository.RejectInvitationToProjectAsync(model.ProjectId, model.UserEmail);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Backend.Database.DbContext
             var client = new MongoClient();
 
             var db = client.GetDatabase(nameDatabase);
-            Projects = db.GetCollection<Project>(nameof(Project));
+            Projects = db.GetCollection<Project>(nameof(Projects));
             UserProjectMembership = db.GetCollection<UserProjectMembership>(nameof(UserProjectMembership));
         }
     }

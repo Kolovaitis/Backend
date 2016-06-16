@@ -35,26 +35,26 @@ namespace Backend.Controllers
         public async Task<IHttpActionResult> AddProject(AddProjectModel model)
         {
             model.UserEmail = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email;
-            return Ok(await _service.AddProject(model));
+            return Ok(await _service.AddProjectAsync(model));
         }
 
         [HttpGet, Route("getMyProjects")]
         public async Task<IHttpActionResult> GetMyProjects()
         {
-            return Ok(await _service.getMyProjects((await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email));
+            return Ok(await _service.getMyProjectsAsync((await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email));
         }
 
         [HttpPost, Route("changeProject")]
         public async Task<IHttpActionResult> ChangeProject(ChangeProjectModel model)
         {
-            await _service.ChangeProject(model);
+            await _service.ChangeProjectAsync(model);
             return Ok();
         }
 
         [HttpPost, Route("deleteProject")]
         public async Task<IHttpActionResult> DeleteProject(DeleteProjectModel model)
         {
-            await _service.DeleteProject(model);
+            await _service.DeleteProjectAsync(model);
             return Ok();
         }
 
@@ -62,7 +62,7 @@ namespace Backend.Controllers
         public async Task<IHttpActionResult> InviteUserToProject(InviteUserToProjectModel model)
         {
             //model.EmailSender = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email;
-            await _service.InviteUserToProject(model);
+            await _service.InviteUserToProjectAsync(model);
             return Ok();
         }
 
@@ -70,7 +70,7 @@ namespace Backend.Controllers
         public async Task<IHttpActionResult> AcceptInvitation(AcceptInvitationModel model)
         {
             model.UserEmail = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email;
-            await _service.AcceptInvitation(model);
+            await _service.AcceptInvitationAsync(model);
             return Ok();
         }
 
@@ -78,27 +78,27 @@ namespace Backend.Controllers
         public async Task<IHttpActionResult> RejectInvitation(RejectInvitationModel model)
         {
             model.UserEmail = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email;
-            await _service.RejectInvitation(model);
+            await _service.RejectInvitationAsync(model);
             return Ok();
         }
 
         [HttpGet, Route("getAllInvitations")]
         public async Task<IHttpActionResult> GetAllInvitations()
         {
-            return Ok(_service.GetAllInvitations((await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email));
+            return Ok(_service.GetAllInvitationsAsync((await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email));
         }
 
         [HttpPost, Route("deleteUserFromProject")]
         public async Task<IHttpActionResult> DeleteUserFromProject(DeleteUserFromProjectModel model)
         {
-            await DeleteUserFromProject(model);
+            await _service.DeleteUserFromProjectAsync(model);
             return Ok();
         }
 
         [HttpPost, Route("getProject")]
         public async Task<IHttpActionResult> GetProject(GetProjectModel model)
         {
-            return Ok(await _service.GetProject(model));
+            return Ok(await _service.GetProjectAsync(model));
         }
     }
 }

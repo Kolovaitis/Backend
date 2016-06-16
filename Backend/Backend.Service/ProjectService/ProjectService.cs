@@ -27,9 +27,9 @@ namespace Backend.Service.ProjectService
         public async Task<ObjectId> AddProject(AddProjectModel model)
         {
             var id = ObjectId.GenerateNewId();
-            if (_projectRepository.GetProjectAsync(id).Result != null) //или нужно так: (_projectRepository.GetProjectAsync(id).IsCompleted)?
+            if (await _projectRepository.GetProjectAsync(id) != null) //или нужно так: (_projectRepository.GetProjectAsync(id).IsCompleted)?
             {
-                throw new Exception("Project already exists");
+                return await AddProject(model);
             }
             var project = new Project
             {

@@ -77,10 +77,8 @@ namespace Backend.Controllers
         public async Task<IHttpActionResult> ChangeCredentials(UserChangeCredentialsModel model)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user != null)
+            if (user != null && await UserManager.CheckPasswordAsync(user, model.OldPassword))
             {
-                if (await UserManager.CheckPasswordAsync(user, model.OldPassword))
-                {
                     if (model.NewEmail != null)
                     {
                         if (await UserManager.FindByEmailAsync(model.NewEmail) != null)
@@ -92,7 +90,6 @@ namespace Backend.Controllers
                     if (model.NewPassword != null)
                         await UserManager.ChangePasswordAsync(user.Id, model.OldPassword, model.NewPassword);
                     return Ok();
-                }
             }
             return BadRequest("invalid password");
         }

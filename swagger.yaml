@@ -1,4 +1,3 @@
-# as a demonstration of an API spec in YAML
 swagger: '2.0'
 info:
   title: Loliboo API
@@ -16,6 +15,8 @@ paths:
   /registration:
     post:
       summary: Registration
+      tags:
+        - User
       description: |
         The registration endpoint registers new user.
         
@@ -34,6 +35,8 @@ paths:
             $ref: '#/definitions/Error'
   /login:
     post:
+      tags:
+        - User
       description: |
         The login endpoint logins user
       parameters:
@@ -157,6 +160,230 @@ paths:
           description: Unexpected error
       security: 
         - LolibooAuth: []
+  /addProject:
+    post:
+      summary: Adds new project
+      description: Adds new project & adds creator in project as member
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/AddProjectModel'
+      tags:
+        - Project
+      responses:
+        200:
+          description: Returns id of created project
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+        - LolibooAuth: []
+  /getMyProjects:
+    get:
+      summary: Returns projects of user
+      description: Returns projects of user
+      tags:
+        - Project
+      responses:
+        200:
+          description: Profile information for a user
+          schema:
+            $ref: '#/definitions/GetProjectArray'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /changeProject:
+    post:
+      summary: Allows to change project
+      description: Allows to change properties of a particular project
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/ChangeProjectModel'
+      tags:
+        - Project
+      responses:
+        200:
+          description: Returns nothing
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /deleteProject:
+    post:
+      summary: Removes project
+      description: Removes project
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/DeleteProjectModel'
+      tags:
+        - Project
+      responses:
+        200:
+          description: Returns nothing
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /inviteUserToProject:
+    post:
+      summary: Invites user to project
+      description: Sends invitation from project to user
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/InviteUserToProjectModel'
+      tags:
+        - Project
+      responses:
+        200:
+          description: Returns nothing
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /acceptInvitation:
+    post:
+      summary: Invites user to project
+      description: Sends invitation from project to user
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/AcceptInvitationModel'
+      tags:
+        - Project
+      responses:
+        200:
+          description: Returns nothing
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /rejectInvitation:
+    post:
+      summary: Rejects invitation
+      description: Rejects invitation
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/RejectInvitationModel'
+      tags:
+        - Project
+      responses:
+        200:
+          description: Returns nothing
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /getAllInvitations:
+    get:
+      summary: Returns all invitations to user
+      description: Returns all invitations to user
+      tags:
+        - Project
+      responses:
+        200:
+          description: Returns nothing
+          schema:
+            $ref: '#/definitions/InvitationArray'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /deleteUserFromProject:
+    post:
+      summary: Removes user from project
+      description: Removes user from project
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/DeleteUserFromProjectModel'
+      tags:
+        - Project
+      responses:
+        200:
+          description: Returns nothing
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []      
+  /getProject:
+    post:
+      summary: Get project by id
+      description: Get project by id
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/GetProjectModel'
+      tags:
+        - Project
+      responses:
+        200:
+          description: Returns nothing
+          schema:
+            $ref: '#/definitions/ProjectToSendModel'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []        
 securityDefinitions:
   LolibooAuth:
     type: basic
@@ -214,3 +441,75 @@ definitions:
     properties:
       Email:
         type: string
+  AcceptInvitationModel:
+    type: object
+    properties:
+      ProjectId:
+        type: string
+      UserEmail:
+        type: string
+  AddProjectModel:
+    type: object
+    properties:
+      Name: 
+        type: string
+      UserEmail: 
+        type: string
+  ChangeProjectModel:
+    type: object
+    properties:
+      ProjectId:
+        type: string
+      Name:
+        type: string
+  DeleteProjectModel:
+    type: object
+    properties:
+      ProjectId:
+        type: string
+  DeleteUserFromProjectModel:
+    type: object
+    properties:
+      UserEmail:
+        type: string
+      ProjectId:
+        type: string
+  GetProjectModel:
+    type: object
+    properties:
+      ProjectId:
+        type: string
+  InvitationModel:
+    type: object
+    properties:
+      ProjectId:
+        type: string
+  InviteUserToProjectModel:
+    type: object
+    properties:
+      EmailRecipient:
+        type: string
+      ProjectId:
+        type: string
+  ProjectToSendModel:
+    type: object
+    properties:
+      ProjectId:
+        type: string
+      Name:
+        type: string
+  RejectInvitationModel:
+    type: object
+    properties:
+      ProjectId:
+        type: string
+      UserEmail:
+        type: string
+  GetProjectArray:
+    type: array
+    items:
+       $ref: '#/definitions/ProjectToSendModel'
+  InvitationArray:
+    type: array
+    items:
+      $ref: '#/definitions/InvitationModel'

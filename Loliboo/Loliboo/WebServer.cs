@@ -1,4 +1,12 @@
-﻿using System;
+﻿using Loliboo.Configuration;
+using Microsoft.Owin;
+using Microsoft.Owin.Hosting;
+using Microsoft.Owin.Security.OAuth;
+using Ninject;
+using Ninject.Web.Common.OwinHost;
+using Ninject.Web.WebApi.OwinHost;
+using Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,13 +15,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Hosting;
 using Microsoft.Owin.Security.Cookies;
-using Ninject;
-using Ninject.Web.Common.OwinHost;
-using Ninject.Web.WebApi.OwinHost;
-using Owin;
-using Loliboo.Configuration;
+using Loliboo.Models;
 using Loliboo.Models.UserModels;
 
 namespace Loliboo

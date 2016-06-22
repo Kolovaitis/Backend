@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Loliboo.Configuration;
+using Loliboo.Database.DbContext;
+using Loliboo.DbEntities;
 using Loliboo.RepositoryAbstractions;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -15,17 +18,13 @@ namespace Loliboo.Database.DbRepositories
     {
         private readonly IMongoCollection<Project> _projects;
         private readonly IMongoCollection<UserProjectMembership> _memberships;
+        private readonly MongoDbContext _context;
 
-        public ProjectRepository()
+        public ProjectRepository(IDbContextFactory<MongoDbContext> contextFactory)
         {
-            var settings = new NinjectSettings { LoadExtensions = true };
-            var kernel = new StandardKernel(settings);
-            kernel.Load("XmlConfiguration.xml");
-
-            var client = new MongoClient();
-            var db = client.GetDatabase(kernel.Get<IConfiguraiton>().NameDatabase);
-            _projects = db.GetCollection<Project>("projects");
-            _memberships = db.GetCollection<UserProjectMembership>("userProjectMembership");
+            _context = contextFactory.Create();
+            _projects = _context.Projects;
+            _memberships = _context.UserProjectMembership;
         }
         public async Task AcceptInvitationToProjectAsync(ObjectId projectId, string userEmail)
         {

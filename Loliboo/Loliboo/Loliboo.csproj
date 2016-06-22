@@ -49,6 +49,10 @@
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Owin.Hosting, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
       <Private>True</Private>
@@ -81,8 +85,8 @@
       <HintPath>..\packages\MongoDB.Driver.Core.2.0.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -179,13 +183,33 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebServer.cs" />
+    <Compile Include="WebServerModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="XmlConfiguration.xml" />
+    <ProjectReference Include="..\Loliboo.Configuration\Loliboo.Configuration.csproj">
+      <Project>{6a5a3adf-9b8d-49db-a6a1-1a930b935d06}</Project>
+      <Name>Loliboo.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Loliboo.Database\Loliboo.Database.csproj">
+      <Project>{7126c116-8384-4329-a4b2-4ecd3d0de244}</Project>
+      <Name>Loliboo.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Loliboo.Models\Loliboo.Models.csproj">
+      <Project>{52fdb886-f5de-42ce-a2ff-73c66ef20c4c}</Project>
+      <Name>Loliboo.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Loliboo.RepositoryAbstractions\Loliboo.RepositoryAbstractions.csproj">
+      <Project>{a2ac7036-3200-483d-85a7-dc938cdc25a2}</Project>
+      <Name>Loliboo.RepositoryAbstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Loliboo.Service\Loliboo.Service.csproj">
+      <Project>{b1f6174e-3565-4402-a624-7e1e64d78fc6}</Project>
+      <Name>Loliboo.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

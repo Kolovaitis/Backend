@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ninject;
+using Loliboo.Database;
+using Loliboo.RepositoryAbstractions;
 
 namespace Loliboo
 {
@@ -11,9 +13,8 @@ namespace Loliboo
     {
         static void Main(string[] args)
         {
-            var settings = new NinjectSettings { LoadExtensions = true };
-            var kernel = new StandardKernel(settings);
-            kernel.Load("XmlConfiguration.xml");
+            var kernel = new StandardKernel();
+            kernel.Load<WebServerModule>();
             var server = kernel.Get<WebServer>();
             server.Start(() => kernel);
             Console.ReadKey();

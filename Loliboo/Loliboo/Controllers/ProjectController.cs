@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Loliboo.Models.ProjectModels;
+using Loliboo.Service;
+using Loliboo.Service.ProjectService;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 
 namespace Loliboo.Controllers
 {

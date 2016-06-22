@@ -65,9 +65,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseModule.cs" />
-    <Compile Include="DbContext\MongoDbContext.cs" />
-    <Compile Include="DbContext\MongoDbContextFactory.cs" />
     <Compile Include="DbRepositories\ProjectRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

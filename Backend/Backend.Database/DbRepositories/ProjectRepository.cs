@@ -7,23 +7,27 @@ using System.Threading.Tasks;
 using Backend.DbEntities;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Backend.Database.DbContext;
 using Ninject;
 using System.Data.Entity.Infrastructure;
+using Backend.Configuration;
 
 namespace Backend.Database.DbRepositories
 {
     public class ProjectRepository : IProjectRepository
     {
-        private IMongoCollection<Project> _projects;
-        private IMongoCollection<UserProjectMembership> _memberships;
-        private readonly MongoDbContext _context;
+        private readonly IMongoCollection<Project> _projects;
+        private readonly IMongoCollection<UserProjectMembership> _memberships;
 
-        public ProjectRepository(IDbContextFactory<MongoDbContext> contextFactory)
+        public ProjectRepository()
         {
-            _context = contextFactory.Create();
-            _projects = _context.Projects;
-            _memberships = _context.UserProjectMembership;
+            var settings = new NinjectSettings { LoadExtensions = true };
+            var kernel = new StandardKernel(settings);
+            kernel.Load(@"C:\Users\Егор\Documents\Visual Studio 2015\Projects\Backend\Backend\Backend\XmlConfiguration.xml");
+            
+            var client = new MongoClient();
+            var db = client.GetDatabase(kernel.Get<IConfiguraiton>().NameDatabase);
+            _projects = db.GetCollection<Project>("projects");
+            _memberships = db.GetCollection<UserProjectMembership>("userProjectMembership");
         }
         public async Task AcceptInvitationToProjectAsync(ObjectId projectId, string userEmail)
         {

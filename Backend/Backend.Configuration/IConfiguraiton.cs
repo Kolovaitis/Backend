@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Backend.Configuration
 {
-    public class Configuration : IConfiguraiton
+    public interface IConfiguraiton
     {
-        public string Host => "http://localhost:9000";
-        public string NameDatabase { get; } = "loliboo";
+        string Host { get; }
+        string NameDatabase { get; }
     }
 }

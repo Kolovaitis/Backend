@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<module name = "XmlConfiguration" >
+<bind service = "Backend.Service.ProjectService.IProjectService, Backend.Service"
+        to="Backend.Service.ProjectService.ProjectService, Backend.Service" />
+<bind service = "Backend.WebServer, Backend"
+        to="Backend.WebServer, Backend" />
+<bind service = "Backend.RepositoryAbstractions.IProjectRepository, Backend.RepositoryAbstractions"
+        to="Backend.Database.DbRepositories.ProjectRepository, Backend.Database" />
+<bind service = "Backend.Configuration.IConfiguraiton, Backend.Configuration"
+        to="Backend.Configuration.Configuration, Backend.Configuration" />
+</module>

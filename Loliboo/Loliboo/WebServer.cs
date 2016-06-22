@@ -13,6 +13,8 @@ using Ninject;
 using Ninject.Web.Common.OwinHost;
 using Ninject.Web.WebApi.OwinHost;
 using Owin;
+using Loliboo.Configuration;
+using Loliboo.Models.UserModels;
 
 namespace Loliboo
 {

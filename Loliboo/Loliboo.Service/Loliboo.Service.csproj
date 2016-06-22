@@ -64,6 +64,10 @@
       <Project>{52fdb886-f5de-42ce-a2ff-73c66ef20c4c}</Project>
       <Name>Loliboo.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Loliboo.RepositoryAbstractions\Loliboo.RepositoryAbstractions.csproj">
+      <Project>{a2ac7036-3200-483d-85a7-dc938cdc25a2}</Project>
+      <Name>Loliboo.RepositoryAbstractions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

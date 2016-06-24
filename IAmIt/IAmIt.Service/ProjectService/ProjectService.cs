@@ -21,6 +21,11 @@ namespace IAmIt.Service.ProjectService
 
         public async Task AcceptInvitationAsync(AcceptInvitationModel model)
         {
+            var users = await _projectRepository.GetUsersInProjectAsync(new ObjectId(model.ProjectId));
+            if(users.Contains(model.UserEmail))
+            {
+                throw new Exception("You are already in the project");
+            }
             var id = new ObjectId(model.ProjectId);
             await _projectRepository.AcceptInvitationToProjectAsync(id, model.UserEmail);
         }
@@ -63,10 +68,21 @@ namespace IAmIt.Service.ProjectService
             await _projectRepository.DeleteUserFromProjectAsync(id, model.UserEmail);
         }
 
+        public async Task DeleteYourselfAsync(DeleteUserFromProjectModel model)
+        {
+            await _projectRepository.DeleteUserFromProjectAsync(new ObjectId(model.ProjectId) ,model.UserEmail);
+        }
+
         public async Task<ICollection<InvitationModel>> GetAllInvitationsAsync(string Email)
         {
             return (await _projectRepository.GetAllInvitationsAsync(Email))
                 .Select(g => new InvitationModel { ProjectId = g.ToString() }).ToList();
+        }
+
+        public async Task<ICollection<UserToSendModel>> GetAllUsersInProjectAsync(GetProjectModel model)
+        {
+            return (await _projectRepository.GetUsersInProjectAsync(new ObjectId(model.ProjectId)))
+                .Select(g => new UserToSendModel {Email = g}).ToList();
         }
 
         public async Task<ICollection<ProjectToSendModel>> getMyProjectsAsync(string Email)
@@ -84,12 +100,27 @@ namespace IAmIt.Service.ProjectService
 
         public async Task InviteUserToProjectAsync(InviteUserToProjectModel model)
         {
+            var users = await _projectRepository.GetUsersInProjectAsync(new ObjectId(model.ProjectId));
+            if (users.Contains(model.EmailRecipient))
+            {
+                throw new Exception("User is already in the project");
+            }
+            var invitations = await _projectRepository.GetAllInvitationsAsync(model.EmailRecipient);
+            if (invitations.Contains(new ObjectId(model.ProjectId)))
+            {
+                throw new Exception("User has already been invited");
+            }
             var id = new ObjectId(model.ProjectId);
             await _projectRepository.InviteUserToProjectAsync(id, model.EmailRecipient);
         }
 
         public async Task RejectInvitationAsync(RejectInvitationModel model)
         {
+            var users = await _projectRepository.GetUsersInProjectAsync(new ObjectId(model.ProjectId));
+            if (users.Contains(model.UserEmail))
+            {
+                throw new Exception("You are already in the project");
+            }
             var id = new ObjectId(model.ProjectId);
             await _projectRepository.RejectInvitationToProjectAsync(id, model.UserEmail);
         }

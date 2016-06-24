@@ -18,7 +18,9 @@ namespace IAmIt.Service.ProjectService
         Task AcceptInvitationAsync(AcceptInvitationModel model);
         Task RejectInvitationAsync(RejectInvitationModel model);
         Task DeleteUserFromProjectAsync(DeleteUserFromProjectModel model);
+        Task DeleteYourselfAsync(DeleteUserFromProjectModel);
         Task<ProjectToSendModel> GetProjectAsync(GetProjectModel model);
         Task<ICollection<InvitationModel>> GetAllInvitationsAsync(string Email);
+        Task<ICollection<UserToSendModel>> GetAllUsersInProjectAsync(GetProjectModel model);
     }
 }

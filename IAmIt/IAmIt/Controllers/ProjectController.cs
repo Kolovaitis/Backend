@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using IAmIt.Service.ProjectService;
@@ -58,9 +59,16 @@ namespace IAmIt.Controllers
         [System.Web.Http.HttpPost, System.Web.Http.Route("inviteUserToProject")]
         public async Task<IHttpActionResult> InviteUserToProject(InviteUserToProjectModel model)
         {
-            //model.EmailSender = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email;
-            await _service.InviteUserToProjectAsync(model);
-            return Ok();
+            try
+            {
+                //model.EmailSender = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email;
+                await _service.InviteUserToProjectAsync(model);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("acceptInvitation")]
@@ -97,6 +105,22 @@ namespace IAmIt.Controllers
         {
             return Ok(await _service.GetProjectAsync(model));
         }
+
+        [System.Web.Http.HttpPost, System.Web.Http.Route("deleteYourself")]
+        public async Task<IHttpActionResult> DeleteYourself(DeleteUserFromProjectModel model)
+        {
+            model.UserEmail = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).Email;
+
+            return Ok(/*await _service.DeleteYourselfAsync(model)*/);
+        }
+
+        [System.Web.Http.HttpPost, System.Web.Http.Route("getAllUsersInProject")]
+        public async Task<IHttpActionResult> GetAllUsersInProject(GetProjectModel model)
+        {
+            return Ok(/*await _service.GetAllUsersInProjectAsync(model)*/);
+        }
+
+
 
         private IAuthenticationManager AuthenticationManager
         {

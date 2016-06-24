@@ -51,6 +51,7 @@ namespace IAmIt.Database.EntityFramework.DbRepository
         public async Task DeleteProjectAsync(ObjectId projectId)
         {
             await _projects.DeleteOneAsync(p => p.Id == projectId);
+            await _memberships.DeleteManyAsync(m => m.ProjectId == projectId);
         }
 
         public async Task DeleteUserFromProjectAsync(ObjectId projectId, string userEmail)

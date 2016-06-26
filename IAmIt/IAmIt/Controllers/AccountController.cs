@@ -40,7 +40,7 @@ namespace IAmIt.Controllers
             {
                 var userIdentity = await user.GenerateUserIdentityAsync(UserManager);
                 AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, userIdentity);
-                return Ok();
+                return Ok("Ok");
             }
             return BadRequest("Invalid email or password");
         }
@@ -63,14 +63,14 @@ namespace IAmIt.Controllers
                 }
                 return BadRequest(errorString);
             }
-            return Ok();
+            return Ok("Ok");
         }
 
         [System.Web.Http.HttpGet, System.Web.Http.Route("logoff"), ValidateAntiForgeryToken]
         public IHttpActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return Ok();
+            return Ok("Ok");
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("changeInfo"), ValidateAntiForgeryToken]
@@ -80,7 +80,7 @@ namespace IAmIt.Controllers
             if (model.Name != null)
                 user.FullName = model.Name;
             await UserManager.UpdateAsync(user);
-            return Ok();
+            return Ok("Ok");
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("changeCredentials"), ValidateAntiForgeryToken]
@@ -112,7 +112,7 @@ namespace IAmIt.Controllers
                         return BadRequest(errorString);
                     }
                 }
-                return Ok();
+                return Ok("Ok");
             }
             return BadRequest("Invalid password");
         }

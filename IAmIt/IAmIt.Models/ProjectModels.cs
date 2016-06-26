@@ -10,13 +10,13 @@ namespace IAmIt.Models
     public class AcceptInvitationModel
     {
         public string ProjectId { get; set; }
-        public string UserEmail { get; set; }
+        public ObjectId UserId { get; set; }
     }
 
     public class AddProjectModel
     {
         public string Name { get; set; }
-        public string UserEmail { get; set; }
+        public ObjectId UserId { get; set; }
     }
 
     public class ChangeProjectModel
@@ -32,6 +32,7 @@ namespace IAmIt.Models
 
     public class DeleteUserFromProjectModel
     {
+        public ObjectId UserId { get; set; }
         public string UserEmail { get; set; }
         public string ProjectId { get; set; }
     }
@@ -44,12 +45,14 @@ namespace IAmIt.Models
     public class InvitationModel
     {
         public string ProjectId { get; set; }
+        public string ProjectName { get; set; }
     }
 
     public class InviteUserToProjectModel
     {
         //public string EmailSender { get; set; }
         public string EmailRecipient { get; set; }
+        public ObjectId RecipientId { get; set; }
         public string ProjectId { get; set; }
     }
 
@@ -63,6 +66,6 @@ namespace IAmIt.Models
     public class RejectInvitationModel
     {
         public string ProjectId { get; set; }
-        public string UserEmail { get; set; }
+        public ObjectId UserId { get; set; }
     }
 }

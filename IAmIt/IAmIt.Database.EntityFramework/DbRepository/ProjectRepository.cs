@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using IAmIt.Configuration;
 using IAmIt.Database.EntityFramework.DbContext;
 using IAmIt.DbEntity.DbEntity;
+using IAmIt.DbEntity.RepositoryModels;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Ninject;
@@ -27,12 +28,12 @@ namespace IAmIt.Database.EntityFramework.DbRepository
             _projects = db.GetCollection<Project>("projects");
             _memberships = db.GetCollection<UserProjectMembership>("userProjectMembership");
         }
-        public async Task AcceptInvitationToProjectAsync(ObjectId projectId, string userEmail)
+        public async Task AcceptInvitationToProjectAsync(ObjectId projectId, ObjectId userId)
         {
             await _memberships.UpdateOneAsync(
                 new BsonDocument {
                     {"ProjectId", projectId},
-                    {"UserEmail", userEmail}},
+                    {"UserId", userId}},
                 new BsonDocument("$set", new BsonDocument("IsVerified", true)));
         }
 
@@ -54,14 +55,16 @@ namespace IAmIt.Database.EntityFramework.DbRepository
             await _memberships.DeleteManyAsync(m => m.ProjectId == projectId);
         }
 
-        public async Task DeleteUserFromProjectAsync(ObjectId projectId, string userEmail)
+        public async Task DeleteUserFromProjectAsync(ObjectId projectId, ObjectId userId)
         {
-            await _memberships.DeleteOneAsync(m => m.ProjectId == projectId && m.UserEmail == userEmail);
+            await _memberships.DeleteOneAsync(m => m.ProjectId == projectId && m.UserId == userId);
         }
 
-        public async Task<List<ObjectId>> GetAllInvitationsAsync(string userEmail)
+        public async Task<List<GetAllInvitationsRepositoryModel>> GetAllInvitationsAsync(ObjectId userId)
         {
-            return (await _memberships.FindAsync(m => m.UserEmail == userEmail && !m.IsVerified)).ToList().Select(m => m.ProjectId).ToList();
+            var s = (await _memberships.FindAsync(m => m.UserId == userId && !m.IsVerified)).ToList();
+            return s
+                .Select(p => new GetAllInvitationsRepositoryModel { ProjectId = p.ProjectId, ProjectName = _projects.Find(m => m.Id == p.ProjectId).FirstOrDefault().Name }).ToList(); ;
         }
 
         public async Task<Project> GetProjectAsync(ObjectId projectId)
@@ -69,31 +72,31 @@ namespace IAmIt.Database.EntityFramework.DbRepository
             return (await _projects.FindAsync(p => p.Id == projectId)).FirstOrDefault();
         }
 
-        public async Task<List<Project>> GetProjectsByUserAsync(string userEmail)
+        public async Task<List<Project>> GetProjectsByUserAsync(ObjectId userId)
         {
-            var ids = (await _memberships.FindAsync(m => m.UserEmail == userEmail && m.IsVerified)).ToList().Select(m => m.ProjectId).ToList();
+            var ids = (await _memberships.FindAsync(m => m.UserId == userId && m.IsVerified)).ToList().Select(m => m.ProjectId).ToList();
             return (await _projects.FindAsync(p => ids.Contains(p.Id))).ToList();
         }
 
-        public async Task<List<string>> GetUsersInProjectAsync(ObjectId projectId)
+        public async Task<List<ObjectId>> GetUsersInProjectAsync(ObjectId projectId)
         {
-            return (await _memberships.FindAsync(m => m.ProjectId == projectId && m.IsVerified)).ToList().Select(m => m.UserEmail).ToList();
+            return (await _memberships.FindAsync(m => m.ProjectId == projectId && m.IsVerified)).ToList().Select(m => m.UserId).ToList();
         }
 
-        public async Task InviteUserToProjectAsync(ObjectId projectId, string userEmail)
+        public async Task InviteUserToProjectAsync(ObjectId projectId, ObjectId userId)
         {
             var membership = new UserProjectMembership
             {
                 IsVerified = false,
                 ProjectId = projectId,
-                UserEmail = userEmail
+                UserId = userId
             };
             await _memberships.InsertOneAsync(membership);
         }
 
-        public async Task RejectInvitationToProjectAsync(ObjectId projectId, string userEmail)
+        public async Task RejectInvitationToProjectAsync(ObjectId projectId, ObjectId userId)
         {
-            await _memberships.DeleteOneAsync(m => m.ProjectId == projectId && m.UserEmail == userEmail && !m.IsVerified);
+            await _memberships.DeleteOneAsync(m => m.ProjectId == projectId && m.UserId == userId && !m.IsVerified);
         }
     }
 }

@@ -5,13 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 
-namespace IAmIt.DbEntity.DbEntity
+namespace IAmIt.DbEntity.RepositoryModels
 {
-    public class UserProjectMembership
+    public class GetAllInvitationsRepositoryModel
     {
-        public ObjectId Id { get; set; }
-        public ObjectId UserId { get; set; }
         public ObjectId ProjectId { get; set; }
-        public bool IsVerified { get; set; }
+        public string ProjectName { get; set; }
     }
 }

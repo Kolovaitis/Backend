@@ -61,6 +61,7 @@
     <Compile Include="DbEntity\Project.cs" />
     <Compile Include="DbEntity\UserProjectMembership.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryModels\ProjectRepositoryModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -79,17 +79,31 @@ namespace IAmIt.Controllers
         [System.Web.Http.HttpPost, System.Web.Http.Route("acceptInvitation"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> AcceptInvitation(AcceptInvitationModel model)
         {
-            model.UserId = new ObjectId(User.Identity.GetUserId());
-            await _service.AcceptInvitationAsync(model);
-            return Ok("Ok");
+            try
+            {
+                model.UserId = new ObjectId(User.Identity.GetUserId());
+                await _service.AcceptInvitationAsync(model);
+                return Ok("Ok");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("rejectInvitation"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> RejectInvitation(RejectInvitationModel model)
         {
-            model.UserId = new ObjectId(User.Identity.GetUserId());
-            await _service.RejectInvitationAsync(model);
-            return Ok("Ok");
+            try
+            {
+                model.UserId = new ObjectId(User.Identity.GetUserId());
+                await _service.RejectInvitationAsync(model);
+                return Ok("Ok");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [System.Web.Http.HttpGet, System.Web.Http.Route("getAllInvitations"), ValidateAntiForgeryToken]

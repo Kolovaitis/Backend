@@ -28,7 +28,9 @@ paths:
             $ref: '#/definitions/UserRegistrationModel'
       responses:
         200:
-          description: Returns nothing
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         400:
           description: User with this email already exist
           schema:
@@ -47,7 +49,9 @@ paths:
              $ref: '#/definitions/UserLoginModel'
       responses:
         200:
-          description: Returns nothing
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         400:
           schema:
             $ref: '#/definitions/Error'
@@ -66,7 +70,9 @@ paths:
         - User
       responses:
         200:
-          description: Changes either email, password or both
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         400:
           description: Incorrect password or user with this email already exist
           schema:
@@ -130,7 +136,9 @@ paths:
         - User
       responses:
         200:
-          description: Logged off
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -151,7 +159,9 @@ paths:
         - User
       responses:
         200:
-          description: Changed info for the user
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -174,7 +184,9 @@ paths:
         - Project
       responses:
         200:
-          description: Returns id of created project
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -216,7 +228,9 @@ paths:
         - Project
       responses:
         200:
-          description: Returns nothing
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -239,7 +253,9 @@ paths:
         - Project
       responses:
         200:
-          description: Returns nothing
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -262,7 +278,9 @@ paths:
         - Project
       responses:
         200:
-          description: Returns nothing
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -285,7 +303,9 @@ paths:
         - Project
       responses:
         200:
-          description: Returns nothing
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -308,7 +328,9 @@ paths:
         - Project
       responses:
         200:
-          description: Returns nothing
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -350,7 +372,9 @@ paths:
         - Project
       responses:
         200:
-          description: Returns nothing
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -358,7 +382,33 @@ paths:
         default:
           description: Unexpected error
       security: 
-       - LolibooAuth: []      
+       - LolibooAuth: []
+  /deleteYourself:
+    post:
+      summary: Removes you from project
+      description: Removes you from project
+      parameters:
+        - name: model
+          required: true
+          in: body
+          description: field UserEmail must be null. We will add unique model for this method in future, but now you should use this because of 'костыль'
+          schema:
+            $ref: '#/definitions/DeleteUserFromProjectModel'
+      tags:
+        - Project
+      responses:
+        200:
+          description: Returns message 'ok'
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
   /getProject:
     post:
       summary: Get project by id
@@ -373,7 +423,7 @@ paths:
         - Project
       responses:
         200:
-          description: Returns nothing
+          description: Returns project
           schema:
             $ref: '#/definitions/ProjectToSendModel'
         401:
@@ -383,7 +433,32 @@ paths:
         default:
           description: Unexpected error
       security: 
-       - LolibooAuth: []        
+       - LolibooAuth: []     
+  /getAllUsersInProject:
+    post:
+      summary: Get users by id of project
+      description: Get users by id of project
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/GetProjectModel'
+      tags: 
+        - Project
+      responses:
+        200:
+          description: Returns list of projects
+          schema:
+            $ref: '#/definitions/UserToSendArray'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
 securityDefinitions:
   LolibooAuth:
     type: basic
@@ -513,3 +588,10 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/InvitationModel'
+  UserToSendArray:
+    type: array
+    items:
+      $ref: '#/definitions/UserToSendModel'
+  Message:
+    type: string
+    description: 'Ok'

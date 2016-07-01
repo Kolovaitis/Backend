@@ -84,17 +84,17 @@ namespace IAmIt.Service.ProjectService
             return (await _projectRepository.GetUsersInProjectAsync(new ObjectId(model.ProjectId))).ToList();
         }
 
-        public async Task<ICollection<ProjectToSendModel>> getMyProjectsAsync(ObjectId userId)
+        public async Task<ICollection<ProjectToSendLightModel>> getMyProjectsAsync(ObjectId userId)
         {
             return (await _projectRepository.GetProjectsByUserAsync(userId))
-                .Select(g => new ProjectToSendModel { ProjectId = g.Id.ToString(), Name = g.Name }).ToList();
+                .Select(g => new ProjectToSendLightModel { ProjectId = g.Id.ToString(), Name = g.Name }).ToList();
         }
 
-        public async Task<ProjectToSendModel> GetProjectAsync(GetProjectModel model)
+        public async Task<ProjectToSendFullModel> GetProjectAsync(GetProjectModel model)
         {
             var id = new ObjectId(model.ProjectId);
             var project = (await _projectRepository.GetProjectAsync(id));
-            return new ProjectToSendModel { ProjectId = project.Id.ToString(), Name = project.Name };
+            return new ProjectToSendFullModel { ProjectId = project.Id.ToString(), Name = project.Name /* ListBoards = listBoards*/ };
         }
 
         public async Task InviteUserToProjectAsync(InviteUserToProjectModel model)

@@ -11,7 +11,7 @@ namespace IAmIt.Service.ProjectService
     public interface IProjectService
     {
         Task<ObjectId> AddProjectAsync(AddProjectModel model);
-        Task<ICollection<ProjectToSendModel>> getMyProjectsAsync(ObjectId userId);
+        Task<ICollection<ProjectToSendLightModel>> getMyProjectsAsync(ObjectId userId);
         Task ChangeProjectAsync(ChangeProjectModel model);
         Task DeleteProjectAsync(DeleteProjectModel model);
         Task InviteUserToProjectAsync(InviteUserToProjectModel model);
@@ -19,7 +19,7 @@ namespace IAmIt.Service.ProjectService
         Task RejectInvitationAsync(RejectInvitationModel model);
         Task DeleteUserFromProjectAsync(DeleteUserFromProjectModel model);
         Task DeleteYourselfAsync(DeleteUserFromProjectModel model);
-        Task<ProjectToSendModel> GetProjectAsync(GetProjectModel model);
+        Task<ProjectToSendFullModel> GetProjectAsync(GetProjectModel model);
         Task<ICollection<InvitationModel>> GetAllInvitationsAsync(ObjectId userId);
         Task<ICollection<ObjectId>> GetAllUsersInProjectAsync(GetProjectModel model);
     }

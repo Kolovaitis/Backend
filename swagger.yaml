@@ -383,7 +383,7 @@ paths:
           description: Unexpected error
       security: 
        - LolibooAuth: []
-  /deleteYourself:
+  /deleteYourselfFromProject:
     post:
       summary: Removes you from project
       description: Removes you from project

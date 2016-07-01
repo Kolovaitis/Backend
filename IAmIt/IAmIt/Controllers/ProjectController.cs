@@ -126,7 +126,7 @@ namespace IAmIt.Controllers
             return Ok(await _service.GetProjectAsync(model));
         }
 
-        [System.Web.Http.HttpPost, System.Web.Http.Route("deleteYourself"), ValidateAntiForgeryToken]
+        [System.Web.Http.HttpPost, System.Web.Http.Route("deleteYourselfFromProject"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> DeleteYourself(DeleteUserFromProjectModel model)
         {
             model.UserId = new ObjectId (User.Identity.GetUserId());
@@ -143,14 +143,6 @@ namespace IAmIt.Controllers
                     Email = (UserManager.FindById(u.ToString())).Email,
                     Name = (UserManager.FindById(u.ToString())).FullName
                 }).ToList());
-        }
-        
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return Request.GetOwinContext().Authentication;
-            }
         }
     }
 }

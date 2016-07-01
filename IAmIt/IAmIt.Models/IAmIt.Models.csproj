@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardModels.cs" />
     <Compile Include="ProjectModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserModels.cs" />

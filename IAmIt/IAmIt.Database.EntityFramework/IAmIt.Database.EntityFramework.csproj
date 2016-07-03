@@ -86,6 +86,8 @@
     <Compile Include="DbContext\MongoDbContext.cs" />
     <Compile Include="DbContext\MongoDbContextFactory.cs" />
     <Compile Include="DbModule\EntityFrameworkModule.cs" />
+    <Compile Include="DbRepository\BoardRepository.cs" />
+    <Compile Include="DbRepository\IBoardRepository.cs" />
     <Compile Include="DbRepository\IProjectRepository.cs" />
     <Compile Include="DbRepository\ProjectRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

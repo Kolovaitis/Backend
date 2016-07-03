@@ -11,5 +11,6 @@ namespace IAmIt.DbEntity.DbEntity
     {
         public ObjectId Id { get; set; }
         public string Name { get; set; }
+        public ObjectId ProjectId { get; set; }
     }
 }

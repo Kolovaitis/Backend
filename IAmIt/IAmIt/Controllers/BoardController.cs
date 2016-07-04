@@ -81,16 +81,27 @@ namespace IAmIt.Controllers
             return Ok("Ok");
         }
 
-        [System.Web.Http.HttpPost, System.Web.Http.Route("getMyBoards"), ValidateAntiForgeryToken]
-        public async Task<IHttpActionResult> GetMyBoards(GetMyBoardsModel model)
+        [System.Web.Http.HttpGet, System.Web.Http.Route("getMyBoards"), ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> GetMyBoards()
         {
-            return Ok(await _service.GetMyBoardsAsync(model));
+            return Ok(await _service.GetMyBoardsAsync(new ObjectId(User.Identity.GetUserId())));
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("getBoard"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> GetBoard(GetBoardModel model)
         {
             return Ok(await _service.GetBoardAsync(model));
+        }
+
+        [System.Web.Http.HttpPost, System.Web.Http.Route("getUsersInBoard"), ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> GetUsersInBoard(GetUsersInBoardModel model)
+        {
+            return Ok((await _service.GetUsersInBoardAsync(model)).
+                Select(u => new UserToSendModel
+                {
+                    Email = (UserManager.FindById(u.ToString())).Email,
+                    Name = (UserManager.FindById(u.ToString())).FullName
+                }).ToList());
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IAmIt.Service.BoardService;
 using IAmIt.Service.ProjectService;
 
 namespace IAmIt.Service
@@ -13,6 +14,7 @@ namespace IAmIt.Service
         public override void Load()
         {
             Bind<IProjectService>().To<ProjectService.ProjectService>();
+            Bind<IBoardService>().To<BoardService.BoardService>();
         }
     }
 }

@@ -66,7 +66,7 @@ namespace IAmIt.Models
     {
         public string ProjectId { get; set; }
         public string Name { get; set; }
-        ICollection<BoardToSendLightModel> Boards { get; set; }
+        public ICollection<BoardToSendLightModel> Boards { get; set; }
     }
 
     public class RejectInvitationModel

@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MongoDB.Bson;
+using IAmIt.Service.BoardService;
 
 namespace IAmIt.Controllers
 {
@@ -58,7 +59,7 @@ namespace IAmIt.Controllers
         public async Task<IHttpActionResult> AddUserToBoard(AddUserToBoardModel model)
         {
             model.UserId = new ObjectId((await UserManager.FindByEmailAsync(model.UserEmail)).Id);
-            return Ok(await _service.AddUserToGroupBoardAsync(model));
+            return Ok(await _service.AddUserToBoardAsync(model));
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("deleteUserFromBoard"), ValidateAntiForgeryToken]
@@ -76,7 +77,7 @@ namespace IAmIt.Controllers
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("getMyBoards"), ValidateAntiForgeryToken]
-        public async Task<IHttpActionResult> GetMyBoards(GetBoardModel model)
+        public async Task<IHttpActionResult> GetMyBoards(GetMyBoardsModel model)
         {
             return Ok(await _service.GetMyBoardsAsync(model));
         }

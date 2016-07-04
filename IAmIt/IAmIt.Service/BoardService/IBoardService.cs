@@ -18,7 +18,7 @@ namespace IAmIt.Service.BoardService
         Task ChangeBoardAsync(ChangeBoardModel model);
         Task AddUserToBoardAsync(AddUserToBoardModel model);
         Task DeleteUserFromBoardAsync(DeleteUserFromBoardModel model);
-        Task DeleteYourselfFromBoardAsync(DeleteUserFromBoardModel model);
+        Task DeleteYourselfFromBoardAsync(DeleteYourselfFromBoardModel model);
         Task<ICollection<ObjectId>> GetUsersInBoardAsync(GetUsersInBoardModel model);
     }
 }

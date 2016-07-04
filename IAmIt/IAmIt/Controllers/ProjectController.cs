@@ -127,11 +127,18 @@ namespace IAmIt.Controllers
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("deleteYourselfFromProject"), ValidateAntiForgeryToken]
-        public async Task<IHttpActionResult> DeleteYourself(DeleteUserFromProjectModel model)
+        public async Task<IHttpActionResult> DeleteYourself(DeleteYourselfFromProjectModel model)
         {
-            model.UserId = new ObjectId (User.Identity.GetUserId());
-            await _service.DeleteYourselfAsync(model);
-            return Ok("Ok");
+            try
+            {
+                model.UserId = new ObjectId(User.Identity.GetUserId());
+                await _service.DeleteYourselfAsync(model);
+                return Ok("Ok");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("getAllUsersInProject"), ValidateAntiForgeryToken]

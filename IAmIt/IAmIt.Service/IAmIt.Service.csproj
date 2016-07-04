@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardService\BoardService.cs" />
+    <Compile Include="BoardService\IBoardService.cs" />
     <Compile Include="ProjectService\IProjectService.cs" />
     <Compile Include="ProjectService\ProjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

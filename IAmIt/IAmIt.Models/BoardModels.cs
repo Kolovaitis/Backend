@@ -44,6 +44,11 @@ namespace IAmIt.Models
         public string BoardId { get; set; }
     }
 
+    public class GetMyBoardsModel
+    {
+        public string UserId { get; set; }
+    }
+
     public class BoardToSendLightModel
     {
         public string BoardId { get; set; }

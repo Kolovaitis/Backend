@@ -28,6 +28,11 @@ namespace IAmIt.Database.EntityFramework.DbRepository
             await _boards.InsertOneAsync(board);
         }
 
+        public async Task<ICollection<ObjectId>> GetUsersInBoardAsync(ObjectId boardId)
+        {
+            return (await _toUserMemberships.FindAsync(b => b.BoardId == boardId)).ToList().Select(u => u.UserId).ToList();
+        }
+
         public async Task AddUserToBoardAsync(ObjectId userId, ObjectId boardId)
         {
             var membership = new UserBoardMembership

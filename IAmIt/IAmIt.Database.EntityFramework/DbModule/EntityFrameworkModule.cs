@@ -1,5 +1,4 @@
-﻿using IAmIt.Database.EntityFramework.DbContext;
-using IAmIt.Database.EntityFramework.DbRepository;
+﻿using IAmIt.Database.EntityFramework.DbRepository;
 using Ninject.Modules;
 using System;
 using System.Collections.Generic;
@@ -14,8 +13,8 @@ namespace IAmIt.Database.EntityFramework.DbModule
     {
         public override void Load()
         {
-            Bind<IDbContextFactory<MongoDbContext>>().To<MongoDbContextFactory>();
             Bind<IProjectRepository>().To<ProjectRepository>();
+            Bind<IBoardRepository>().To<BoardRepository>();
         }
     }
 }

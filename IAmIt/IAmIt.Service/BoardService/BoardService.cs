@@ -29,9 +29,10 @@ namespace IAmIt.Service.BoardService
             {
                 Id = id,
                 Name = model.Name,
-                ProjectId =  model.ProjectId
+                ProjectId =  new ObjectId(model.ProjectId)
             };
             await _boardRepository.AddBoardAsync(board);
+            await _boardRepository.AddUserToBoardAsync(model.UserId, id);
             return id;
         }
 
@@ -77,10 +78,15 @@ namespace IAmIt.Service.BoardService
             };
         }
 
-        public async Task<ICollection<BoardToSendLightModel>> GetMyBoardsAsync(GetMyBoardsModel model)
+        public async Task<ICollection<BoardToSendLightModel>> GetMyBoardsAsync(ObjectId userId)
         { 
-            return (await _boardRepository.GetBoardsByUserAsync(new ObjectId(model.UserId)))
+            return (await _boardRepository.GetBoardsByUserAsync(userId))
                 .Select(g => new BoardToSendLightModel { BoardId = g.Id.ToString(), Name = g.Name }).ToList();
+        }
+
+        public async Task<ICollection<ObjectId>> GetUsersInBoardAsync(GetUsersInBoardModel model)
+        {
+            return (await _boardRepository.GetUsersInBoardAsync(new ObjectId(model.BoardId)));
         }
     }
 }

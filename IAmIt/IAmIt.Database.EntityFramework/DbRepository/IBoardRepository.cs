@@ -12,6 +12,7 @@ namespace IAmIt.Database.EntityFramework.DbRepository
     {
         Task<Board> GetBoardAsync(ObjectId id);
         Task AddBoardAsync(Board board);
+        Task<ICollection<ObjectId>> GetUsersInBoardAsync(ObjectId boardId);
         Task DeleteBoardAsync(ObjectId id);
         Task ChangeBoardAsync(Board board);
         Task<List<Board>> GetBoardsByUserAsync(ObjectId userId);

@@ -12,7 +12,7 @@ namespace IAmIt.Models
     {
         public string Name { get; set; }
         public ObjectId UserId { get; set; }
-        public ObjectId ProjectId { get; set; }
+        public string ProjectId { get; set; }
     }
 
     public class ChangeBoardModel
@@ -45,9 +45,9 @@ namespace IAmIt.Models
         public string BoardId { get; set; }
     }
 
-    public class GetMyBoardsModel
+    public class GetUsersInBoardModel
     {
-        public string UserId { get; set; }
+        public string BoardId { get; set; }
     }
 
     public class BoardToSendLightModel

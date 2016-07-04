@@ -62,7 +62,7 @@ namespace IAmIt.Service.BoardService
             await _boardRepository.DeleteUserFromBoardAsync(model.UserId, id);
         }
 
-        public async Task DeleteYourselfFromBoardAsync(DeleteUserFromBoardModel model)
+        public async Task DeleteYourselfFromBoardAsync(DeleteYourselfFromBoardModel model)
         {
             await _boardRepository.DeleteUserFromBoardAsync(model.UserId,new ObjectId(model.BoardId));
         }

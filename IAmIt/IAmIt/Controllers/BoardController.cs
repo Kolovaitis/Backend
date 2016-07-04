@@ -60,9 +60,16 @@ namespace IAmIt.Controllers
         [System.Web.Http.HttpPost, System.Web.Http.Route("addUserToBoard"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> AddUserToBoard(AddUserToBoardModel model)
         {
-            model.UserId = new ObjectId((await UserManager.FindByEmailAsync(model.UserEmail)).Id);
-            await _service.AddUserToBoardAsync(model);
-            return Ok("Ok");
+            try
+            {
+                model.UserId = new ObjectId((await UserManager.FindByEmailAsync(model.UserEmail)).Id);
+                await _service.AddUserToBoardAsync(model);
+                return Ok("Ok");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("deleteUserFromBoard"), ValidateAntiForgeryToken]
@@ -74,11 +81,18 @@ namespace IAmIt.Controllers
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("deleteYourselfFromBoard"), ValidateAntiForgeryToken]
-        public async Task<IHttpActionResult> DeleteYourselfFromBoard(DeleteUserFromBoardModel model)
+        public async Task<IHttpActionResult> DeleteYourselfFromBoard(DeleteYourselfFromBoardModel model)
         {
-            model.UserId = new ObjectId(User.Identity.GetUserId());
-            await _service.DeleteYourselfFromBoardAsync(model);
-            return Ok("Ok");
+            try
+            {
+                model.UserId = new ObjectId(User.Identity.GetUserId());
+                await _service.DeleteYourselfFromBoardAsync(model);
+                return Ok("Ok");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [System.Web.Http.HttpGet, System.Web.Http.Route("getMyBoards"), ValidateAntiForgeryToken]

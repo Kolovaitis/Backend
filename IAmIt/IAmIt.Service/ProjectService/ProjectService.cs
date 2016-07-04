@@ -70,7 +70,7 @@ namespace IAmIt.Service.ProjectService
             await _projectRepository.DeleteUserFromProjectAsync(id, model.UserId);
         }
 
-        public async Task DeleteYourselfAsync(DeleteUserFromProjectModel model)
+        public async Task DeleteYourselfAsync(DeleteYourselfFromProjectModel model)
         {
             await _projectRepository.DeleteUserFromProjectAsync(new ObjectId(model.ProjectId) ,model.UserId);
         }

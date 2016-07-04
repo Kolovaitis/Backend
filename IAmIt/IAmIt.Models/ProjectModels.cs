@@ -37,6 +37,12 @@ namespace IAmIt.Models
         public string ProjectId { get; set; }
     }
 
+    public class DeleteYourselfFromProjectModel
+    {
+        public ObjectId UserId { get; set; }
+        public string ProjectId { get; set; }
+    }
+
     public class GetProjectModel
     {
         public string ProjectId { get; set; }

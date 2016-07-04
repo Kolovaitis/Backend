@@ -184,9 +184,9 @@ paths:
         - Project
       responses:
         200:
-          description: Returns message 'ok'
+          description: Returns project id
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/ObjectId'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -281,6 +281,10 @@ paths:
           description: Returns message 'ok'
           schema:
             $ref: '#/definitions/Message'
+        400:
+          description: User is already in the project or User has already been invited
+          schema:
+            $ref: '#/definitions/Error'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -306,6 +310,10 @@ paths:
           description: Returns message 'ok'
           schema:
             $ref: '#/definitions/Message'
+        400:
+          description: You are already in the project
+          schema:
+            $ref: '#/definitions/Error'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -331,6 +339,10 @@ paths:
           description: Returns message 'ok'
           schema:
             $ref: '#/definitions/Message'
+        400:
+          description: You are already in the project
+          schema:
+            $ref: '#/definitions/Error'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -391,9 +403,8 @@ paths:
         - name: model
           required: true
           in: body
-          description: field UserEmail must be null. We will add unique model for this method in future, but now you should use this because of 'костыль'
           schema:
-            $ref: '#/definitions/DeleteUserFromProjectModel'
+            $ref: '#/definitions/DeleteYourselfFromProjectModel'
       tags:
         - Project
       responses:
@@ -401,6 +412,10 @@ paths:
           description: Returns message 'ok'
           schema:
             $ref: '#/definitions/Message'
+        400:
+          description: You are the last user in the project
+          schema:
+            $ref: '#/definitions/Error'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -425,7 +440,7 @@ paths:
         200:
           description: Returns project
           schema:
-            $ref: '#/definitions/ProjectToSendModel'
+            $ref: '#/definitions/ProjectToSendFullModel'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -448,9 +463,236 @@ paths:
         - Project
       responses:
         200:
-          description: Returns list of projects
+          description: Returns list of users
           schema:
             $ref: '#/definitions/UserToSendArray'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /addBoard:
+    post:
+      summary: Add board
+      description: Add board to project
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/AddBoardModel'
+      tags: 
+        - Board
+      responses:
+        200:
+          description: Returns id of board
+          schema:
+            $ref: '#/definitions/ObjectId'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /changeBoard:
+    post:
+      summary: Change board
+      description: Change name and other information of board
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/ChangeBoardModel'
+      tags: 
+        - Board
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /deleteBoard:
+    post:
+      summary: Delete board
+      description: Delete board
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/DeleteBoardModel'
+      tags: 
+        - Board
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /addUserToBoard:
+    post:
+      summary: Add user to board
+      description: Add user to board
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/AddUserToBoardModel'
+      tags: 
+        - Board
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        400:
+          description: User is already in board
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /deleteUserFromBoard:
+    post:
+      summary: Delete user from board
+      description: Delete user from board
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/DeleteUserFromBoardModel'
+      tags: 
+        - Board
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /getUsersInBoard:
+    post:
+      summary: Get users by id of board
+      description: Get users by id of board
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/GetUsersInBoardModel'
+      tags: 
+        - Board
+      responses:
+        200:
+          description: Returns list of users
+          schema:
+            $ref: '#/definitions/UserToSendArray'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /deleteYourselfFromBoard:
+    post:
+      summary: Delete yourself from board
+      description: Delete yourself from board
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/DeleteYourselfFromBoardModel'
+      tags: 
+        - Board
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        400:
+          description: You are the last user in the board
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /getBoard:
+    post:
+      summary: Return board by id
+      description: Return board by id
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/GetBoardModel'
+      tags: 
+        - Board
+      responses:
+        200:
+          description: Returns board
+          schema:
+            $ref: '#/definitions/BoardToSendFullModel'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /getMyBoards:
+    get:
+      summary: Return boards of current user
+      description: Return board of current user
+      tags: 
+        - Board
+      responses:
+        200:
+          description: Returns array of boards
+          schema:
+            $ref: '#/definitions/GetBoardArray'
         401:
           description: Authorization has been denied for this request
           schema:
@@ -549,6 +791,11 @@ definitions:
         type: string
       ProjectId:
         type: string
+  DeleteYourselfFromProjectModel:
+    type: object
+    properties:
+      ProjectId:
+        type: string
   GetProjectModel:
     type: object
     properties:
@@ -566,13 +813,22 @@ definitions:
         type: string
       ProjectId:
         type: string
-  ProjectToSendModel:
+  ProjectToSendLightModel:
     type: object
     properties:
       ProjectId:
         type: string
       Name:
         type: string
+  ProjectToSendFullModel:
+    type: object
+    properties:
+      ProjectId:
+        type: string
+      Name:
+        type: string
+      Boards:
+        $ref: '#/definitions/GetBoardArray'
   RejectInvitationModel:
     type: object
     properties:
@@ -580,10 +836,76 @@ definitions:
         type: string
       UserEmail:
         type: string
+  AddBoardModel:
+    type: object
+    properties:
+      ProjectId:
+        type: string
+      Name:
+        type: string
+  ChangeBoardModel:
+    type: object
+    properties:
+      BoardId:
+        type: string
+      Name:
+        type: string
+  DeleteBoardModel:
+    type: object
+    properties:
+      BoardId:
+        type: string
+  AddUserToBoardModel:
+    type: object
+    properties:
+      BoardId:
+        type: string
+      UserEmail:
+        type: string
+  DeleteUserFromBoardModel:
+    type: object
+    properties:
+      BoardId:
+        type: string
+      UserEmail:
+        type: string
+  DeleteYourselfFromBoardModel:
+    type: object
+    properties:
+      BoardId:
+        type: string
+  GetUsersInBoardModel:
+    type: object
+    properties:
+      BoardId:
+        type: string
+  BoardToSendLightModel:
+    type: object
+    properties:
+      BoardId:
+        type: string
+      Name:
+        type: string
+  BoardToSendFullModel:
+    type: object
+    properties:
+      BoardId:
+        type: string
+      Name:
+        type: string
+  GetBoardModel:
+    type: object
+    properties:
+      BoardId:
+        type: string
+  GetBoardArray:
+    type: array
+    items:
+       $ref: '#/definitions/BoardToSendLightModel'
   GetProjectArray:
     type: array
     items:
-       $ref: '#/definitions/ProjectToSendModel'
+       $ref: '#/definitions/ProjectToSendLightModel'
   InvitationArray:
     type: array
     items:
@@ -595,3 +917,5 @@ definitions:
   Message:
     type: string
     description: 'Ok'
+  ObjectId:
+    type: string

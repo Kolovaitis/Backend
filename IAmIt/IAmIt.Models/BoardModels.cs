@@ -33,6 +33,12 @@ namespace IAmIt.Models
         public string BoardId { get; set; }
     }
 
+    public class DeleteYourselfFromBoardModel
+    {
+        public ObjectId UserId { get; set; }
+        public string BoardId { get; set; }
+    }
+
     public class AddUserToBoardModel
     {
         public ObjectId UserId { get; set; }

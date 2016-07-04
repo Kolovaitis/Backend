@@ -46,34 +46,39 @@ namespace IAmIt.Controllers
         [System.Web.Http.HttpPost, System.Web.Http.Route("deleteBoard"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> DeleteBoard(DeleteBoardModel model)
         {
-            return Ok(await _service.DeleteBoardAsync(model));
+            await _service.DeleteBoardAsync(model);
+            return Ok("Ok");
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("changeBoard"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> ChangeBoard(ChangeBoardModel model)
         {
-            return Ok(await _service.ChangeBoardAsync(model));
+            await _service.ChangeBoardAsync(model);
+            return Ok("Ok");
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("addUserToBoard"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> AddUserToBoard(AddUserToBoardModel model)
         {
             model.UserId = new ObjectId((await UserManager.FindByEmailAsync(model.UserEmail)).Id);
-            return Ok(await _service.AddUserToBoardAsync(model));
+            await _service.AddUserToBoardAsync(model);
+            return Ok("Ok");
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("deleteUserFromBoard"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> DeleteUserFromBoard(DeleteUserFromBoardModel model)
         {
             model.UserId = new ObjectId((await UserManager.FindByEmailAsync(model.UserEmail)).Id);
-            return Ok(await _service.DeleteUserFromBoardAsync(model));
+            await _service.DeleteUserFromBoardAsync(model);
+            return Ok("Ok");
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("deleteYourselfFromBoard"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> DeleteYourselfFromBoard(DeleteUserFromBoardModel model)
         {
             model.UserId = new ObjectId(User.Identity.GetUserId());
-            return Ok(await _service.DeleteYourselfFromBoardAsync(model));
+            await _service.DeleteYourselfFromBoardAsync(model);
+            return Ok("Ok");
         }
 
         [System.Web.Http.HttpPost, System.Web.Http.Route("getMyBoards"), ValidateAntiForgeryToken]

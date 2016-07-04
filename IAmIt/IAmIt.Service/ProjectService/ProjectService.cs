@@ -13,10 +13,12 @@ namespace IAmIt.Service.ProjectService
     public class ProjectService : IProjectService
     {
         private readonly IProjectRepository _projectRepository;
+        private readonly IBoardRepository _boardRepository;
 
-        public ProjectService(IProjectRepository projectRepository)
+        public ProjectService(IProjectRepository projectRepository, IBoardRepository boardRepository)
         {
             _projectRepository = projectRepository;
+            _boardRepository = boardRepository;
         }
 
         public async Task AcceptInvitationAsync(AcceptInvitationModel model)
@@ -33,7 +35,7 @@ namespace IAmIt.Service.ProjectService
         public async Task<ObjectId> AddProjectAsync(AddProjectModel model)
         {
             var id = ObjectId.GenerateNewId();
-            if (await _projectRepository.GetProjectAsync(id) != null) //или нужно так: (_projectRepository.GetProjectAsync(id).IsCompleted)?
+            if (await _projectRepository.GetProjectAsync(id) != null)
             {
                 return await AddProjectAsync(model);
             }
@@ -94,7 +96,10 @@ namespace IAmIt.Service.ProjectService
         {
             var id = new ObjectId(model.ProjectId);
             var project = (await _projectRepository.GetProjectAsync(id));
-            return new ProjectToSendFullModel { ProjectId = project.Id.ToString(), Name = project.Name /* ListBoards = listBoards*/ };
+            return new ProjectToSendFullModel {
+                ProjectId = project.Id.ToString(),
+                Name = project.Name,
+                Boards = (await _boardRepository.GetBoardsInProjectAsync(id)).Select(b => new BoardToSendLightModel { BoardId = b.Id.ToString(), Name = b.Name}).ToList() };
         }
 
         public async Task InviteUserToProjectAsync(InviteUserToProjectModel model)

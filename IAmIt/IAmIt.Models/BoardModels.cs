@@ -12,6 +12,7 @@ namespace IAmIt.Models
     {
         public string Name { get; set; }
         public ObjectId UserId { get; set; }
+        public ObjectId ProjectId { get; set; }
     }
 
     public class ChangeBoardModel

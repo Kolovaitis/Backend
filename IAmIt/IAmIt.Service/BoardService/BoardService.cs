@@ -38,6 +38,10 @@ namespace IAmIt.Service.BoardService
 
         public async Task AddUserToBoardAsync(AddUserToBoardModel model)
         {
+            if ((await _boardRepository.GetUsersInBoardAsync(new ObjectId(model.BoardId))).Contains(model.UserId))
+            {
+                throw new Exception("This user is already a member of the board");
+            }
             var id = new ObjectId(model.BoardId);
             await _boardRepository.AddUserToBoardAsync(model.UserId, id);
         }
@@ -64,6 +68,11 @@ namespace IAmIt.Service.BoardService
 
         public async Task DeleteYourselfFromBoardAsync(DeleteYourselfFromBoardModel model)
         {
+            if ((await _boardRepository.GetUsersInBoardAsync(new ObjectId(model.BoardId))).AsQueryable().Count() == 1)
+            {
+                throw new Exception
+                    ("You are the last member of the board. If you really want to delete yourself, delete the whole board");
+            }
             await _boardRepository.DeleteUserFromBoardAsync(model.UserId,new ObjectId(model.BoardId));
         }
 

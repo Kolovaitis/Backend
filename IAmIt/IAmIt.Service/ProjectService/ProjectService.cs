@@ -26,7 +26,7 @@ namespace IAmIt.Service.ProjectService
             var users = await _projectRepository.GetUsersInProjectAsync(new ObjectId(model.ProjectId));
             if(users.Contains(model.UserId))
             {
-                throw new Exception("You are already in the project");
+                throw new Exception("You are already a member of that project");
             }
             var id = new ObjectId(model.ProjectId);
             await _projectRepository.AcceptInvitationToProjectAsync(id, model.UserId);
@@ -72,6 +72,10 @@ namespace IAmIt.Service.ProjectService
 
         public async Task DeleteYourselfAsync(DeleteYourselfFromProjectModel model)
         {
+            if((await _projectRepository.GetUsersInProjectAsync(new ObjectId(model.ProjectId))).AsQueryable().Count() == 1){
+                throw new Exception
+                    ("You are the last member of the project. If you really want to delete yourself, delete the whole project");
+            }
             await _projectRepository.DeleteUserFromProjectAsync(new ObjectId(model.ProjectId) ,model.UserId);
         }
 
@@ -99,7 +103,8 @@ namespace IAmIt.Service.ProjectService
             return new ProjectToSendFullModel {
                 ProjectId = project.Id.ToString(),
                 Name = project.Name,
-                Boards = (await _boardRepository.GetBoardsInProjectAsync(id)).Select(b => new BoardToSendLightModel { BoardId = b.Id.ToString(), Name = b.Name}).ToList() };
+                Boards = (await _boardRepository.GetBoardsInProjectAsync(id))
+                .Select(b => new BoardToSendLightModel { BoardId = b.Id.ToString(), Name = b.Name}).ToList() };
         }
 
         public async Task InviteUserToProjectAsync(InviteUserToProjectModel model)
@@ -107,7 +112,7 @@ namespace IAmIt.Service.ProjectService
             var users = await _projectRepository.GetUsersInProjectAsync(new ObjectId(model.ProjectId));
             if (users.Contains(model.RecipientId))
             {
-                throw new Exception("User is already in the project");
+                throw new Exception("User is already a member of the project");
             }
             var invitations = await _projectRepository.GetAllInvitationsAsync(model.RecipientId);
             if (invitations.Select(i => i.ProjectId).Contains(new ObjectId(model.ProjectId)))
@@ -123,7 +128,7 @@ namespace IAmIt.Service.ProjectService
             var users = await _projectRepository.GetUsersInProjectAsync(new ObjectId(model.ProjectId));
             if (users.Contains(model.UserId))
             {
-                throw new Exception("You are already in the project");
+                throw new Exception("You are a member of that project");
             }
             var id = new ObjectId(model.ProjectId);
             await _projectRepository.RejectInvitationToProjectAsync(id, model.UserId);

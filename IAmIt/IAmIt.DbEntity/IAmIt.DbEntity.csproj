@@ -59,8 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbEntity\Board.cs" />
+    <Compile Include="DbEntity\Card.cs" />
+    <Compile Include="DbEntity\Column.cs" />
     <Compile Include="DbEntity\Project.cs" />
     <Compile Include="DbEntity\UserBoardMembership.cs" />
+    <Compile Include="DbEntity\UserCardMembership.cs" />
     <Compile Include="DbEntity\UserProjectMembership.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryModels\ProjectRepositoryModels.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,6 +67,6 @@ namespace IAmIt.Models
     {
         public string BoardId { get; set; }
         public string Name { get; set; }
-        //List<List>
+        public ICollection<ColumnToSendModel> Columns { get; set; }
     }
 }

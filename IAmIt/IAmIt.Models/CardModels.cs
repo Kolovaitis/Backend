@@ -72,9 +72,10 @@ namespace IAmIt.Models
     {
         public string ColumnId { get; set; }
         public string Name { get; set; }
+        public int Position { get; set; }
     }
 
-    public class CardToFullLightModel
+    public class CardToSendFullModel
     {
         public string ColumnId { get; set; }
         public string Name { get; set; }

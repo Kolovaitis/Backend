@@ -13,10 +13,14 @@ namespace IAmIt.Service.BoardService
     public class BoardService : IBoardService
     {
         private readonly IBoardRepository _boardRepository;
+        private readonly IColumnRepository _columnRepository;
+        private readonly ICardRepository _cardRepository;
 
-        public BoardService(IBoardRepository boardRepository)
+        public BoardService(IBoardRepository boardRepository, IColumnRepository columnRepository, ICardRepository cardRepository)
         {
             _boardRepository = boardRepository;
+            _columnRepository = columnRepository;
+            _cardRepository = cardRepository;
         }
         public async Task<ObjectId> AddBoardAsync(AddBoardModel model)
         {
@@ -83,7 +87,11 @@ namespace IAmIt.Service.BoardService
             return new BoardToSendFullModel
             {
                 BoardId = board.Id.ToString(),
-                Name = board.Name
+                Name = board.Name,
+                Columns = _columnRepository.GetColumnsInBoard(board.Id)
+                    .Select(c => new ColumnToSendModel
+                    { ColumnId = c.Id, Name = c.Name, Position = c.Position, Cards = _cardRepository.GetCardsInColumn(c.Id)
+                    .Select(card => new CardToSendLightModel {Name = card.Name, Position = card.Position, ColumnId = card.ColumnId})})
             };
         }
 

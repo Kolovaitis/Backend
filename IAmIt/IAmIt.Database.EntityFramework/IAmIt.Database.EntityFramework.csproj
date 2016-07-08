@@ -85,7 +85,11 @@
   <ItemGroup>
     <Compile Include="DbModule\EntityFrameworkModule.cs" />
     <Compile Include="DbRepository\BoardRepository.cs" />
+    <Compile Include="DbRepository\CardRepository.cs" />
+    <Compile Include="DbRepository\ColumnRepository.cs" />
     <Compile Include="DbRepository\IBoardRepository.cs" />
+    <Compile Include="DbRepository\ICardRepository.cs" />
+    <Compile Include="DbRepository\IColumnRepository.cs" />
     <Compile Include="DbRepository\IProjectRepository.cs" />
     <Compile Include="DbRepository\ProjectRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

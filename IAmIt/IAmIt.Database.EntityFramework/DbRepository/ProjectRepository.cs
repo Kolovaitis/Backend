@@ -15,11 +15,11 @@ namespace IAmIt.Database.EntityFramework.DbRepository
 {
     public class ProjectRepository : IProjectRepository
     {
-        private readonly IConfiguraiton _configuration;
+        private readonly IConfiguration _configuration;
         private readonly IMongoCollection<Project> _projects;
         private readonly IMongoCollection<UserProjectMembership> _memberships;
 
-        public ProjectRepository(IConfiguraiton configuration)
+        public ProjectRepository(IConfiguration configuration)
         {
             _configuration = configuration;
             var client = new MongoClient();

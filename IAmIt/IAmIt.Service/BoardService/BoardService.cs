@@ -88,10 +88,16 @@ namespace IAmIt.Service.BoardService
             {
                 BoardId = board.Id.ToString(),
                 Name = board.Name,
-                Columns = _columnRepository.GetColumnsInBoard(board.Id)
+                Columns = (await _columnRepository.GetAllColumnsInBoardAsync(board.Id))
                     .Select(c => new ColumnToSendModel
-                    { ColumnId = c.Id, Name = c.Name, Position = c.Position, Cards = _cardRepository.GetCardsInColumn(c.Id)
-                    .Select(card => new CardToSendLightModel {Name = card.Name, Position = card.Position, ColumnId = card.ColumnId})})
+                    {
+                        ColumnId = c.Id.ToString(),
+                        Name = c.Name,
+                        Position = c.Position,
+                        //строчкой ниже - вселенское зло
+                        Cards = _cardRepository.GetAllCardsByUserAsync(c.Id).Result
+                    .Select(card => new CardToSendLightModel { Name = card.Name, Position = card.Position, ColumnId = card.ColumnId.ToString() }).ToList()
+                    }).ToList()
             };
         }
 

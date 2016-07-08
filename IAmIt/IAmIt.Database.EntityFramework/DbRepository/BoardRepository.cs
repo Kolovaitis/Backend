@@ -12,10 +12,10 @@ namespace IAmIt.Database.EntityFramework.DbRepository
 {
     public class BoardRepository : IBoardRepository
     {
-        private readonly IConfiguraiton _configuration;
+        private readonly IConfiguration _configuration;
         private readonly IMongoCollection<Board> _boards;
         private readonly IMongoCollection<UserBoardMembership> _toUserMemberships;
-        public BoardRepository(IConfiguraiton configuration)
+        public BoardRepository(IConfiguration configuration)
         {
             _configuration = configuration;
             var client = new MongoClient();

@@ -25,7 +25,7 @@ namespace IAmIt
         private readonly string _host;
         private IDisposable _server;
 
-        public WebServer(IConfiguraiton configuration)
+        public WebServer(IConfiguration configuration)
         {
             _host = configuration.Host;
         }

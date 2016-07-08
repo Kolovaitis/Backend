@@ -10,6 +10,7 @@ namespace IAmIt.DbEntity.DbEntity
     public class Column
     {
         public ObjectId Id { get; set; }
+        public ObjectId BoardId { get; set; }
         public string Name { get; set; }
         public int Position { get; set; }
     }

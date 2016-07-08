@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace IAmIt.Configuration
 {
-    public interface IConfiguraiton
+    public interface IConfiguration
     {
         string DbConnectionString { get; }
         string Host { get; }
         string NameDatabase { get; }
     }
 
-    public class Configuration : IConfiguraiton
+    public class Configuration : IConfiguration
     {
         public string DbConnectionString { get; } = "localhost";
         public string Host => "http://localhost:9000";

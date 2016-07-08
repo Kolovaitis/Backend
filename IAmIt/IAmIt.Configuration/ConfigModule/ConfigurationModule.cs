@@ -11,7 +11,7 @@ namespace IAmIt.Configuration
     {
         public override void Load()
         {
-            Bind<IConfiguraiton>().To<Configuration>();
+            Bind<IConfiguration>().To<Configuration>();
         }
     }
 }

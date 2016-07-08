@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 
 namespace IAmIt.Models
 {
@@ -41,18 +42,20 @@ namespace IAmIt.Models
     {
         public string CardId { get; set; }
         public string UserEmail { get; set; }
+        public ObjectId UserId { get; set; }
     }
 
     public class DeleteUserFromCardModel
     {
         public string CardId { get; set; }
         public string UserEmail { get; set; }
+        public ObjectId UserId { get; set; }
     }
 
     public class DeleteYourselfFromCardModel
     {
         public string CardId { get; set; }
-        public string UserEmail { get; set; }
+        public ObjectId UserId { get; set; }
     }
 
     public class GetCardModel

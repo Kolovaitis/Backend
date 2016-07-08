@@ -24,6 +24,12 @@ namespace IAmIt.Models
         public string Name { get; set; }
     }
 
+    public class MoveColumnModel
+    {
+        public string ColumnId { get; set; }
+        public int NewPosition { get; set; }
+    }
+
     public class ColumnToSendModel
     {
         public string ColumnId { get; set; }

@@ -11,6 +11,7 @@ using IAmIt.Service.BoardService;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using MongoDB.Bson;
+using IAmIt.Service.ColumnService;
 
 namespace IAmIt.Controllers
 {

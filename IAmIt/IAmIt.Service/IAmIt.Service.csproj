@@ -50,6 +50,10 @@
   <ItemGroup>
     <Compile Include="BoardService\BoardService.cs" />
     <Compile Include="BoardService\IBoardService.cs" />
+    <Compile Include="CardService\CardService.cs" />
+    <Compile Include="CardService\ICardService.cs" />
+    <Compile Include="ColumnService\ColumnService.cs" />
+    <Compile Include="ColumnService\IColumnService.cs" />
     <Compile Include="ProjectService\IProjectService.cs" />
     <Compile Include="ProjectService\ProjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -62,5 +62,10 @@ namespace IAmIt.Database.EntityFramework.DbRepository
             }
             await _columns.UpdateOneAsync(c => c.Id == columnId, new BsonDocument("$set", new BsonDocument("Position", newPosition)));
         }
+
+        public async Task<Column> GetColumnAsync(ObjectId columnId)
+        {
+            return (await _columns.FindAsync(c => c.Id == columnId)).FirstOrDefault();
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace IAmIt.Database.EntityFramework.DbRepository
     public interface IColumnRepository
     {
         Task AddColumnAsync(Column column);
+        Task<Column> GetColumnAsync(ObjectId columnId);
         Task ChangeColumnAsync(Column column);
         Task DeleteColumnAsync(ObjectId id);
         Task<List<Column>> GetAllColumnsInBoardAsync(ObjectId boardId);

@@ -11,6 +11,7 @@ using IAmIt.Service.BoardService;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using MongoDB.Bson;
+using IAmIt.Service.CardService;
 
 namespace IAmIt.Controllers
 {
@@ -110,7 +111,7 @@ namespace IAmIt.Controllers
         [System.Web.Http.HttpPost, System.Web.Http.Route("moveCardInOtherColumn"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> MoveCardInOtherColumn(MoveCardInOtherColumnModel model)
         {
-            await _service.MoveCardInOtherColumn(model);
+            await _service.MoveCardInOtherColumnAsync(model);
             return Ok("Ok");
         }
 

@@ -23,6 +23,7 @@ namespace IAmIt.Database.EntityFramework.DbRepository
         }
         public async Task AddColumnAsync(Column column)
         {
+            column.Position = (await _columns.FindAsync(c => c.BoardId == column.BoardId)).ToList().Count;
             await _columns.InsertOneAsync(column);
         }
 
@@ -35,6 +36,11 @@ namespace IAmIt.Database.EntityFramework.DbRepository
 
         public async Task DeleteColumnAsync(ObjectId id)
         {
+            var currentColumn = (await _columns.FindAsync(c => c.Id == id)).FirstOrDefault();
+            var ids = new List<ObjectId>();
+            ids = (await _columns.FindAsync(c => c.BoardId == currentColumn.BoardId && (c.Position > currentColumn.Position))).ToList().Select(c => c.Id).ToList();
+            var update = Builders<Column>.Update.Inc(c => c.Position, -1);
+            await _columns.UpdateManyAsync(c => ids.Contains(c.Id), update);
             await _columns.DeleteOneAsync(c => c.Id == id);
         }
 
@@ -50,14 +56,14 @@ namespace IAmIt.Database.EntityFramework.DbRepository
             var ids = new List<ObjectId>();
             if (currentPosition > newPosition)
             {
-                ids = (await _columns.FindAsync(c => c.BoardId == currentColumn.BoardId && (c.Position <= newPosition && c.Position > currentColumn.Position))).ToList().Select(c => c.Id).ToList();
-                var update = Builders<Column>.Update.Inc(c => c.Position, -1);
+                ids = (await _columns.FindAsync(c => c.BoardId == currentColumn.BoardId && (c.Position >= newPosition && c.Position < currentColumn.Position))).ToList().Select(c => c.Id).ToList();
+                var update = Builders<Column>.Update.Inc(c => c.Position, 1);
                 await _columns.UpdateManyAsync(c => ids.Contains(c.Id), update);
             }
             else if (currentPosition < newPosition)
             {
-                ids = (await _columns.FindAsync(c => c.BoardId == currentColumn.BoardId && (c.Position >= newPosition && c.Position < currentColumn.Position))).ToList().Select(c => c.Id).ToList();
-                var update = Builders<Column>.Update.Inc(c => c.Position, 1);
+                ids = (await _columns.FindAsync(c => c.BoardId == currentColumn.BoardId && (c.Position <= newPosition && c.Position > currentColumn.Position))).ToList().Select(c => c.Id).ToList();
+                var update = Builders<Column>.Update.Inc(c => c.Position, -1);
                 await _columns.UpdateManyAsync(c => ids.Contains(c.Id), update);
             }
             await _columns.UpdateOneAsync(c => c.Id == columnId, new BsonDocument("$set", new BsonDocument("Position", newPosition)));

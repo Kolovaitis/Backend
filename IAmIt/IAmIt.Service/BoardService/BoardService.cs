@@ -95,9 +95,9 @@ namespace IAmIt.Service.BoardService
                         Name = c.Name,
                         Position = c.Position,
                         //строчкой ниже - вселенское зло
-                        Cards = _cardRepository.GetAllCardsByUserAsync(c.Id).Result
+                        Cards = _cardRepository.GetAllCardsInColumnAsync(c.Id).Result
                     .Select(card => new CardToSendLightModel
-                    { Name = card.Name, Position = card.Position, ColumnId = card.ColumnId.ToString() }).ToList()
+                    { Name = card.Name, Position = card.Position, ColumnId = card.ColumnId.ToString(), CardId = card.Id.ToString() }).ToList()
                     }).ToList()
             };
         }

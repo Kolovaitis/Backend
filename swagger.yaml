@@ -701,6 +701,383 @@ paths:
           description: Unexpected error
       security: 
        - LolibooAuth: []
+  /addColumn:
+    post:
+      summary: Add column
+      description: Add column to board
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/AddColumnModel'
+      tags: 
+        - Column
+      responses:
+        200:
+          description: Returns id of column
+          schema:
+            $ref: '#/definitions/ObjectId'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /changeColumn:
+    post:
+      summary: Change column
+      description: Change name and other information of column
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/ChangeColumnModel'
+      tags: 
+        - Column
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /deleteColumn:
+    post:
+      summary: Delete column
+      description: Delete column
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/DeleteColumnModel'
+      tags: 
+        - Column
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /moveColumn:
+    post:
+      summary: Moves column
+      description: Moves column to another position
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/MoveColumnModel'
+      tags: 
+        - Column
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /addCard:
+    post:
+      summary: Add card
+      description: Add card to project
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/AddCardModel'
+      tags: 
+        - Card
+      responses:
+        200:
+          description: Returns id of card
+          schema:
+            $ref: '#/definitions/ObjectId'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /changeCard:
+    post:
+      summary: Change card
+      description: Change name and other information of card
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/ChangeCardModel'
+      tags: 
+        - Card
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /deleteCard:
+    post:
+      summary: Delete card
+      description: Delete card
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/DeleteCardModel'
+      tags: 
+        - Card
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /addUserToCard:
+    post:
+      summary: Add user to card
+      description: Add user to card
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/AddUserToCardModel'
+      tags: 
+        - Card
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        400:
+          description: User is already in board
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /deleteUserFromCard:
+    post:
+      summary: Delete user from card
+      description: Delete user from card
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/DeleteUserFromCardModel'
+      tags: 
+        - Card
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /getUsersInCard:
+    post:
+      summary: Get users by id of card
+      description: Get users by id of card
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/GetUsersInCardModel'
+      tags: 
+        - Card
+      responses:
+        200:
+          description: Returns list of users
+          schema:
+            $ref: '#/definitions/UserToSendArray'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /deleteYourselfFromCard:
+    post:
+      summary: Delete yourself from card
+      description: Delete yourself from card
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/DeleteYourselfFromCardModel'
+      tags: 
+        - Card
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        400:
+          description: You are the last user in the board
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /getCard:
+    post:
+      summary: Return card by id
+      description: Return card by id
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/GetCardModel'
+      tags: 
+        - Card
+      responses:
+        200:
+          description: Returns card
+          schema:
+            $ref: '#/definitions/CardToSendFullModel'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /getMyCards:
+    get:
+      summary: Return cards of current user
+      description: Return cards of current user
+      tags: 
+        - Card
+      responses:
+        200:
+          description: Returns array of cards
+          schema:
+            $ref: '#/definitions/CardToSendLightArray'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /moveCardInOtherColumn:
+    post:
+      summary: Moves card in another column
+      description: Moves card in another column
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/MoveCardInOtherColumnModel'
+      tags: 
+        - Card
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /moveCard:
+    post:
+      summary: Moves card
+      description: Moves card to another position
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/MoveCardModel'
+      tags: 
+        - Card
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
 securityDefinitions:
   LolibooAuth:
     type: basic
@@ -898,14 +1275,146 @@ definitions:
     properties:
       BoardId:
         type: string
+  AddColumnModel:
+    type: object
+    properties:
+      Name:
+        type: string
+      BoardId:
+        type: string
+  DeleteColumnModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string
+  ChangeColumnModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string
+      Name:
+        type: string
+  MoveColumnModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string
+      NewPosition:
+        type: integer	
+  ColumnToSendModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string
+      Name:
+        type: string
+      Position:
+        type: integer
+      Cards:
+        $ref: '#/definitions/CardToSendLightArray'
+  AddCardModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string
+      Name:
+        type: string
+  DeleteCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string
+  ChangeCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      Name:
+        type: string 
+      Description:
+        type: string 
+  MoveCardInOtherColumnModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      NewColumnId:
+        type: string 
+      NewPosition:
+        type: integer
+  MoveCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      NewPosition:
+        type: integer
+  AddUserToCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      UserEmail:
+        type: string
+      UserId:
+        type: string 	
+  GetCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+  GetUsersInCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+  CardToSendLightModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string 
+      Name:
+        type: string 
+      Position:
+        type: integer
+  CardToSendFullModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string 
+      Name:
+        type: string 
+      Description:
+        type: string
+  DeleteUserFromCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      UserEmail:
+        type: string
+      UserId:
+        type: string 
+  DeleteYourselfFromCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      UserId:
+        type: string  
+    
+  CardToSendLightArray:
+    type: array
+    items:
+      $ref: '#/definitions/CardToSendLightModel'
   GetBoardArray:
     type: array
     items:
-       $ref: '#/definitions/BoardToSendLightModel'
+      $ref: '#/definitions/BoardToSendLightModel'
   GetProjectArray:
     type: array
     items:
-       $ref: '#/definitions/ProjectToSendLightModel'
+      $ref: '#/definitions/ProjectToSendLightModel'
   InvitationArray:
     type: array
     items:

@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Web.Mvc;
 using MongoDB.Bson;
+using Microsoft.AspNet.SignalR;
+using IAmIt.Hubs;
 
 namespace IAmIt.Controllers
 {
@@ -23,7 +25,13 @@ namespace IAmIt.Controllers
                 return Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
         }
-
+        public IHubContext HubContext
+        {
+            get
+            {
+                return GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            }
+        }
         private readonly IProjectService _service;
 
         public ProjectController(IProjectService service)
@@ -109,6 +117,10 @@ namespace IAmIt.Controllers
         [System.Web.Http.HttpGet, System.Web.Http.Route("getAllInvitations"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> GetAllInvitations()
         {
+            var message = "You have just sent invitation";
+            HubContext.Clients.All.displayMessage(message + ": 1");
+            HubContext.Clients.User(User.Identity.GetUserId()).displayMessage(message + ": 2");
+            HubContext.Clients.User(User.Identity.GetUserName()).displayMessage(message + ": 3");
             return Ok(await _service.GetAllInvitationsAsync(new ObjectId(User.Identity.GetUserId())));
         }
 

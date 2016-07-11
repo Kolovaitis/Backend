@@ -36,7 +36,7 @@ namespace IAmIt
             _server = WebApp.Start(_host, builder =>
             {
                 var configuration = new HttpConfiguration();
-                builder.MapSignalR("/notifications:9001", new HubConfiguration());
+                builder.MapSignalR("/notifications", new HubConfiguration());
                 configuration.MapHttpAttributeRoutes();
                 configuration.Formatters.Remove(configuration.Formatters.XmlFormatter);
                 EnsureAuthIndexes.Exist();

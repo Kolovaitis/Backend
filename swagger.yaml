@@ -1301,17 +1301,6 @@ definitions:
         type: string
       NewPosition:
         type: integer	
-  ColumnToSendModel:
-    type: object
-    properties:
-      ColumnId:
-        type: string
-      Name:
-        type: string
-      Position:
-        type: integer
-      Cards:
-        $ref: '#/definitions/CardToSendLightArray'
   AddCardModel:
     type: object
     properties:

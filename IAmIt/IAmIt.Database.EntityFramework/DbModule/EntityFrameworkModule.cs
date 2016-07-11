@@ -15,6 +15,8 @@ namespace IAmIt.Database.EntityFramework.DbModule
         {
             Bind<IProjectRepository>().To<ProjectRepository>();
             Bind<IBoardRepository>().To<BoardRepository>();
+            Bind<IColumnRepository>().To<ColumnRepository>();
+            Bind<ICardRepository>().To<CardRepository>();
         }
     }
 }

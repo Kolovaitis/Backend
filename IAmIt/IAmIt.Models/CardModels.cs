@@ -22,7 +22,6 @@ namespace IAmIt.Models
     {
         public string CardId { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
     }
 
     public class MoveCardInOtherColumnModel
@@ -73,12 +72,13 @@ namespace IAmIt.Models
         public string ColumnId { get; set; }
         public string Name { get; set; }
         public int Position { get; set; }
+        public string CardId { get; set; }
     }
 
     public class CardToSendFullModel
     {
         public string ColumnId { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string CardId { get; set; }
     }
 }

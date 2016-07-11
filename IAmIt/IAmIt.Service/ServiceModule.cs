@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IAmIt.Service.BoardService;
+using IAmIt.Service.CardService;
+using IAmIt.Service.ColumnService;
 using IAmIt.Service.ProjectService;
 
 namespace IAmIt.Service
@@ -15,6 +17,8 @@ namespace IAmIt.Service
         {
             Bind<IProjectService>().To<ProjectService.ProjectService>();
             Bind<IBoardService>().To<BoardService.BoardService>();
+            Bind<IColumnService>().To<ColumnService.ColumnService>();
+            Bind<ICardService>().To<CardService.CardService>();
         }
     }
 }

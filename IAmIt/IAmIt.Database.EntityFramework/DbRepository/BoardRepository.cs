@@ -53,6 +53,7 @@ namespace IAmIt.Database.EntityFramework.DbRepository
 
         public async Task DeleteBoardAsync(ObjectId id)
         {
+            await _toUserMemberships.DeleteManyAsync(m => m.BoardId == id);
             await _boards.DeleteOneAsync(b => b.Id == id);
         }
 

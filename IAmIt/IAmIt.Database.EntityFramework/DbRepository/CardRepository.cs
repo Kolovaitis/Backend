@@ -21,10 +21,11 @@ namespace IAmIt.Database.EntityFramework.DbRepository
             var client = new MongoClient();
             var db = client.GetDatabase(_configuration.NameDatabase);
             _cards = db.GetCollection<Card>("cards");
-            _memberships = db.GetCollection<UserCardMembership>("userCardMemberships");
+            _memberships = db.GetCollection<UserCardMembership>("userCardMembership");
         }
         public async Task AddCardAsync(Card card)
         {
+            card.Position = (await _cards.FindAsync(c => c.ColumnId == card.ColumnId)).ToList().Count;
             await _cards.InsertOneAsync(card);
         }
 
@@ -41,14 +42,18 @@ namespace IAmIt.Database.EntityFramework.DbRepository
         public async Task ChangeCardAsync(Card card)
         {
             var update = Builders<Card>.Update
-                .Set(c => c.Name, card.Name)
-                .Set(c => c.Description, card.Description);
+                .Set(c => c.Name, card.Name);
             await _cards.UpdateOneAsync(c => c.Id == card.Id, update);
         }
 
         public async Task DeleteCardAsync(ObjectId id)
         {
-            await _memberships.DeleteOneAsync(m => m.CardId == id);
+            var currentCard = (await _cards.FindAsync(c => c.Id == id)).FirstOrDefault();
+            var ids = new List<ObjectId>();
+            ids = (await _cards.FindAsync(c => c.ColumnId == currentCard.ColumnId && (c.Position > currentCard.Position))).ToList().Select(c => c.Id).ToList();
+            var update = Builders<Card>.Update.Inc(c => c.Position, -1);
+            await _cards.UpdateManyAsync(c => ids.Contains(c.Id), update);
+            await _memberships.DeleteManyAsync(m => m.CardId == id);
             await _cards.DeleteOneAsync(c => c.Id == id);
         }
 
@@ -80,14 +85,14 @@ namespace IAmIt.Database.EntityFramework.DbRepository
             var ids = new List<ObjectId>();
             if (currentPosition > newPosition)
             {
-                ids = (await _cards.FindAsync(c => c.ColumnId == currentCard.ColumnId && (c.Position <= newPosition && c.Position > currentCard.Position))).ToList().Select(c => c.Id).ToList();
-                var update = Builders<Card>.Update.Inc(c => c.Position, -1);
+                ids = (await _cards.FindAsync(c => c.ColumnId == currentCard.ColumnId && (c.Position >= newPosition && c.Position < currentCard.Position))).ToList().Select(c => c.Id).ToList();
+                var update = Builders<Card>.Update.Inc(c => c.Position, 1);
                 await _cards.UpdateManyAsync(c => ids.Contains(c.Id), update);
             }
             else if (currentPosition < newPosition)
             {
-                ids = (await _cards.FindAsync(c => c.ColumnId == currentCard.ColumnId && (c.Position >= newPosition && c.Position < currentCard.Position))).ToList().Select(c => c.Id).ToList();
-                var update = Builders<Card>.Update.Inc(c => c.Position, 1);
+                ids = (await _cards.FindAsync(c => c.ColumnId == currentCard.ColumnId && (c.Position <= newPosition && c.Position > currentCard.Position))).ToList().Select(c => c.Id).ToList();
+                var update = Builders<Card>.Update.Inc(c => c.Position, -1);
                 await _cards.UpdateManyAsync(c => ids.Contains(c.Id), update);
             }
             await _cards.UpdateOneAsync(c => c.Id == cardId, new BsonDocument("$set", new BsonDocument("Position", newPosition)));

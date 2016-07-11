@@ -48,7 +48,6 @@ namespace IAmIt.Service.CardService
         {
             var card = (await _cardRepository.GetCardAsync(new ObjectId(model.CardId)));
             card.Name = model.Name;
-            card.Description = model.Description;
             await _cardRepository.ChangeCardAsync(card);
         }
 
@@ -79,14 +78,14 @@ namespace IAmIt.Service.CardService
             {
                 ColumnId = card.ColumnId.ToString(),
                 Name = card.Name,
-                Description = card.Description
+                CardId = model.CardId
             };
         }
 
         public async Task<ICollection<CardToSendLightModel>> GetMyCardsAsync(ObjectId userId)
         {
             return (await _cardRepository.GetAllCardsByUserAsync(userId))
-                .Select(g => new CardToSendLightModel { ColumnId = g.ColumnId.ToString(), Name = g.Name, Position = g.Position }).ToList();
+                .Select(g => new CardToSendLightModel { ColumnId = g.ColumnId.ToString(), Name = g.Name, Position = g.Position, CardId = g.Id.ToString() }).ToList();
         }
 
         public async Task<ICollection<ObjectId>> GetUsersInCardAsync(GetUsersInCardModel model)

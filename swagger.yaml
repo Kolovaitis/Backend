@@ -701,6 +701,106 @@ paths:
           description: Unexpected error
       security: 
        - LolibooAuth: []
+  /addColumn:
+    post:
+      summary: Add column
+      description: Add column to board
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/AddColumnModel'
+      tags: 
+        - Column
+      responses:
+        200:
+          description: Returns id of column
+          schema:
+            $ref: '#/definitions/ObjectId'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /changeColumn:
+    post:
+      summary: Change column
+      description: Change name and other information of column
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/ChangeColumnModel'
+      tags: 
+        - Column
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /deleteColumn:
+    post:
+      summary: Delete column
+      description: Delete column
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/DeleteColumnModel'
+      tags: 
+        - Column
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
+  /moveColumn:
+    post:
+      summary: Moves column
+      description: Moves column to another position
+      parameters:
+        - name: model
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/MoveColumnModel'
+      tags: 
+        - Column
+      responses:
+        200:
+          description: Returns message "ok"
+          schema:
+            $ref: '#/definitions/Message'
+        401:
+          description: Authorization has been denied for this request
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+      security: 
+       - LolibooAuth: []
 securityDefinitions:
   LolibooAuth:
     type: basic
@@ -898,14 +998,146 @@ definitions:
     properties:
       BoardId:
         type: string
+  AddColumnModel:
+    type: object
+    properties:
+      Name:
+        type: string
+      BoardId:
+        type: string
+  DeleteColumnModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string
+  ChangeColumnModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string
+      Name:
+        type: string
+  MoveColumnModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string
+      NewPosition:
+        type: integer	
+  ColumnToSendModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string
+      Name:
+        type: string
+      Position:
+        type: integer
+      Cards:
+        $ref: '#/definitions/CardToSendLightArray'
+  AddCardModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string
+      Name:
+        type: string
+  DeleteCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string
+  ChangeCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      Name:
+        type: string 
+      Description:
+        type: string 
+  MoveCardInOtherColumnModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      NewColumnId:
+        type: string 
+      NewPosition:
+        type: integer
+  MoveCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      NewPosition:
+        type: integer
+  AddUserToCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      UserEmail:
+        type: string
+      UserId:
+        type: string 	
+  GetCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+  GetUsersInCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+  CardToSendLightModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string 
+      Name:
+        type: string 
+      Position:
+        type: integer
+  CardToSendFullModel:
+    type: object
+    properties:
+      ColumnId:
+        type: string 
+      Name:
+        type: string 
+      Description:
+        type: string
+  DeleteUserFromCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      UserEmail:
+        type: string
+      UserId:
+        type: string 
+  DeleteYourselfFromCardModel:
+    type: object
+    properties:
+      CardId:
+        type: string 
+      UserId:
+        type: string  
+    
+  CardToSendLightArray:
+    type: array
+    items:
+      $ref: '#/definitions/CardToSendLightModel'
   GetBoardArray:
     type: array
     items:
-       $ref: '#/definitions/BoardToSendLightModel'
+      $ref: '#/definitions/BoardToSendLightModel'
   GetProjectArray:
     type: array
     items:
-       $ref: '#/definitions/ProjectToSendLightModel'
+      $ref: '#/definitions/ProjectToSendLightModel'
   InvitationArray:
     type: array
     items:

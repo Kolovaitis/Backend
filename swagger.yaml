@@ -1319,9 +1319,7 @@ definitions:
       CardId:
         type: string 
       Name:
-        type: string 
-      Description:
-        type: string 
+        type: string
   MoveCardInOtherColumnModel:
     type: object
     properties:
@@ -1345,8 +1343,6 @@ definitions:
         type: string 
       UserEmail:
         type: string
-      UserId:
-        type: string 	
   GetCardModel:
     type: object
     properties:
@@ -1360,6 +1356,8 @@ definitions:
   CardToSendLightModel:
     type: object
     properties:
+      CardId:
+        type: string
       ColumnId:
         type: string 
       Name:
@@ -1369,12 +1367,14 @@ definitions:
   CardToSendFullModel:
     type: object
     properties:
+      CardId:
+        type: string 
       ColumnId:
         type: string 
       Name:
         type: string 
-      Description:
-        type: string
+      Position:
+        type: integer
   DeleteUserFromCardModel:
     type: object
     properties:
@@ -1382,15 +1382,11 @@ definitions:
         type: string 
       UserEmail:
         type: string
-      UserId:
-        type: string 
   DeleteYourselfFromCardModel:
     type: object
     properties:
       CardId:
-        type: string 
-      UserId:
-        type: string  
+        type: string
     
   CardToSendLightArray:
     type: array

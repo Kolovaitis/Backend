@@ -80,9 +80,16 @@ namespace IAmIt.Controllers
         [System.Web.Http.HttpPost, System.Web.Http.Route("deleteYourselfFromCard"), ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> DeleteYourselfFromCard(DeleteYourselfFromCardModel model)
         {
-            model.UserId = new ObjectId(User.Identity.GetUserId());
-            await _service.DeleteYourselfFromCardAsync(model);
-            return Ok("Ok");
+            try
+            {
+                model.UserId = new ObjectId(User.Identity.GetUserId());
+                await _service.DeleteYourselfFromCardAsync(model);
+                return Ok("Ok");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [System.Web.Http.HttpGet, System.Web.Http.Route("getMyCards"), ValidateAntiForgeryToken]

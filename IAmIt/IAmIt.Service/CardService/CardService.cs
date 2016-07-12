@@ -78,7 +78,8 @@ namespace IAmIt.Service.CardService
             {
                 ColumnId = card.ColumnId.ToString(),
                 Name = card.Name,
-                CardId = model.CardId
+                CardId = model.CardId,
+                Position = card.Position
             };
         }
 

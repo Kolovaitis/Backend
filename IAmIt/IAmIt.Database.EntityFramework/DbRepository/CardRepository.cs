@@ -49,8 +49,7 @@ namespace IAmIt.Database.EntityFramework.DbRepository
         public async Task DeleteCardAsync(ObjectId id)
         {
             var currentCard = (await _cards.FindAsync(c => c.Id == id)).FirstOrDefault();
-            var ids = new List<ObjectId>();
-            ids = (await _cards.FindAsync(c => c.ColumnId == currentCard.ColumnId && (c.Position > currentCard.Position))).ToList().Select(c => c.Id).ToList();
+            var ids = (await _cards.FindAsync(c => c.ColumnId == currentCard.ColumnId && (c.Position > currentCard.Position))).ToList().Select(c => c.Id).ToList();
             var update = Builders<Card>.Update.Inc(c => c.Position, -1);
             await _cards.UpdateManyAsync(c => ids.Contains(c.Id), update);
             await _memberships.DeleteManyAsync(m => m.CardId == id);
@@ -65,7 +64,8 @@ namespace IAmIt.Database.EntityFramework.DbRepository
         public async Task<List<Card>> GetAllCardsByUserAsync(ObjectId userId)
         {
             var ids = (await _memberships.FindAsync(m => m.UserId == userId)).ToList().Select(m => m.CardId).ToList();
-            return (await _cards.FindAsync(c => ids.Contains(c.Id))).ToList();
+            var ans = (await _cards.FindAsync(c => ids.Contains(c.Id))).ToList();
+            return ans;
         }
 
         public async Task<List<ObjectId>> GetAllUsersInCardAsync(ObjectId cardId)
@@ -100,11 +100,16 @@ namespace IAmIt.Database.EntityFramework.DbRepository
 
         public async Task MoveCardToOtherColumnAsync(ObjectId cardId, ObjectId columnId, int newPosition)
         {
-            var columnUpdate = Builders<Card>.Update.Set(c => c.ColumnId, columnId);
-            await _cards.UpdateOneAsync(c => c.Id == cardId, columnUpdate);
-            var ids = (await _cards.FindAsync(c => c.ColumnId == columnId && (c.Position >= newPosition))).ToList().Select(c => c.Id).ToList();
-            var update = Builders<Card>.Update.Inc(c => c.Position, 1);
-            await _cards.UpdateManyAsync(c => ids.Contains(c.Id), update);
+            var currentCard = (await _cards.FindAsync(c => c.Id == cardId)).FirstOrDefault();
+            var currentCardIds = (await _cards.FindAsync(c => c.ColumnId == currentCard.ColumnId && (c.Position > currentCard.Position))).ToList().Select(c => c.Id).ToList();
+            var currentCardUpdate = Builders<Card>.Update.Inc(c => c.Position, -1);
+            await _cards.UpdateManyAsync(c => currentCardIds.Contains(c.Id), currentCardUpdate);
+            
+            var newIds = (await _cards.FindAsync(c => c.ColumnId == columnId && (c.Position >= newPosition))).ToList().Select(c => c.Id).ToList();
+            var newUpdate = Builders<Card>.Update.Inc(c => c.Position, 1);
+            await _cards.UpdateManyAsync(c => newIds.Contains(c.Id), newUpdate);
+            var newColumnUpdate = Builders<Card>.Update.Set(c => c.ColumnId, columnId).Set(d => d.Position, newPosition);
+            await _cards.UpdateOneAsync(c => c.Id == cardId, newColumnUpdate);
         }
 
         public async Task<List<Card>> GetAllCardsInColumnAsync(ObjectId columnId)

@@ -91,7 +91,9 @@
     <Compile Include="DbRepository\ICardRepository.cs" />
     <Compile Include="DbRepository\IColumnRepository.cs" />
     <Compile Include="DbRepository\IProjectRepository.cs" />
+    <Compile Include="DbRepository\ITeamRepository.cs" />
     <Compile Include="DbRepository\ProjectRepository.cs" />
+    <Compile Include="DbRepository\TeamRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

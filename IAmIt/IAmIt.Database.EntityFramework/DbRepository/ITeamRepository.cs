@@ -30,6 +30,5 @@ namespace IAmIt.Database.EntityFramework.DbRepository
         Task DeleteTeamFromProjectAsync(ObjectId teamId, ObjectId projectId);
         Task AddTeamToBoardAsync(ObjectId teamId, ObjectId boardId);
         Task DeleteTeamFromBoardAsync(ObjectId teamId, ObjectId boardId);
-        //Task<List<GetAllInvitationsRepositoryModel>> GetAllInvitationsAsync(ObjectId userId);
     }
 }

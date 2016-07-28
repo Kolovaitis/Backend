@@ -8,6 +8,7 @@ using IAmIt.Service.BoardService;
 using IAmIt.Service.CardService;
 using IAmIt.Service.ColumnService;
 using IAmIt.Service.ProjectService;
+using IAmIt.Service.TeamService;
 
 namespace IAmIt.Service
 {
@@ -19,6 +20,7 @@ namespace IAmIt.Service
             Bind<IBoardService>().To<BoardService.BoardService>();
             Bind<IColumnService>().To<ColumnService.ColumnService>();
             Bind<ICardService>().To<CardService.CardService>();
+            Bind<ITeamService>().To<TeamService.TeamService>();
         }
     }
 }

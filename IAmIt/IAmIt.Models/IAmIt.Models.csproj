@@ -65,6 +65,7 @@
     <Compile Include="ColumnModels.cs" />
     <Compile Include="ProjectModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TeamModels.cs" />
     <Compile Include="UserModels.cs" />
   </ItemGroup>
   <ItemGroup>

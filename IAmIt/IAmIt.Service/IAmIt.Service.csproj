@@ -58,6 +58,8 @@
     <Compile Include="ProjectService\ProjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceModule.cs" />
+    <Compile Include="TeamService\ITeamService.cs" />
+    <Compile Include="TeamService\TeamService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IAmIt.Database.EntityFramework\IAmIt.Database.EntityFramework.csproj">

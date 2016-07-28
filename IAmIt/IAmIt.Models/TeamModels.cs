@@ -72,7 +72,7 @@ namespace IAmIt.Models
     {
         public string TeamId { get; set; }
         public string Name { get; set; }
-        public ICollection<UserToSendModel> Boards { get; set; }
+        public ICollection<UserToSendModel> Users { get; set; }
     }
 
     public class RejectTeamInvitationModel

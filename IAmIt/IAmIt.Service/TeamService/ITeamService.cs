@@ -12,8 +12,8 @@ namespace IAmIt.Service.TeamService
     {
         Task<ObjectId> AddTeamAsync(AddTeamModel model);
         Task<ICollection<TeamToSendLightModel>> getMyTeamsAsync(ObjectId userId);
-        Task ChangeProjectAsync(ChangeTeamModel model);
-        Task DeleteProjectAsync(DeleteTeamModel model);
+        Task ChangeTeamAsync(ChangeTeamModel model);
+        Task DeleteTeamAsync(DeleteTeamModel model);
         Task InviteUserToTeamAsync(InviteUserToTeamModel model);
         Task AcceptTeamInvitationAsync(AcceptTeamInvitationModel model);
         Task RejectTeamInvitationAsync(RejectTeamInvitationModel model);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using IAmIt.Models;
 using MongoDB.Bson;
 using IAmIt.Database.EntityFramework.DbRepository;
+using IAmIt.DbEntity.DbEntity;
 
 namespace IAmIt.Service.TeamService
 {
@@ -16,84 +17,131 @@ namespace IAmIt.Service.TeamService
         {
             _teamRepository = teamRepository;
         }
-        public Task AcceptTeamInvitationAsync(AcceptTeamInvitationModel model)
+        public async Task AcceptTeamInvitationAsync(AcceptTeamInvitationModel model)
         {
-            throw new NotImplementedException();
+            var users = await _teamRepository.GetUsersInTeamAsync(new ObjectId(model.TeamId));
+            if (users.Contains(model.UserId))
+            {
+                throw new Exception("You are already a member of that project");
+            }
+            var id = new ObjectId(model.TeamId);
+            await _teamRepository.AcceptInvitationToTeamAsync(id, model.UserId);
         }
 
-        public Task<ObjectId> AddTeamAsync(AddTeamModel model)
+        public async Task<ObjectId> AddTeamAsync(AddTeamModel model)
         {
-            throw new NotImplementedException();
+            var id = ObjectId.GenerateNewId();
+            if (await _teamRepository.GetTeamAsync(id) != null)
+            {
+                return await AddTeamAsync(model);
+            }
+            var team = new Team
+            {
+                Id = id,
+                Name = model.Name,
+                
+            };
+            await _teamRepository.AddTeamAsync(team);
+            await _teamRepository.InviteUserToTeamAsync(id, model.UserId);
+            await _teamRepository.AcceptInvitationToTeamAsync(id, model.UserId);
+            return id;
         }
 
-        public Task AddTeamToBoardAsync(AddTeamToBoardModel model)
+        public async Task AddTeamToBoardAsync(AddTeamToBoardModel model)
         {
-            throw new NotImplementedException();
+            await _teamRepository.AddTeamToBoardAsync(new ObjectId(model.TeamId), new ObjectId(model.BoardId));
         }
 
-        public Task AddTeamToProjectAsync(AddTeamToProjectModel model)
+        public async Task AddTeamToProjectAsync(AddTeamToProjectModel model)
         {
-            throw new NotImplementedException();
+            await _teamRepository.AddTeamToProjectAsync(new ObjectId(model.TeamId), new ObjectId(model.ProjectId));
         }
 
-        public Task ChangeProjectAsync(ChangeTeamModel model)
+        public async Task ChangeTeamAsync(ChangeTeamModel model)
         {
-            throw new NotImplementedException();
+            var team = (await _teamRepository.GetTeamAsync(new ObjectId(model.TeamId)));
+            team.Name = model.Name;
+            await _teamRepository.ChangeTeamAsync(team);
         }
 
-        public Task DeleteProjectAsync(DeleteTeamModel model)
+        public async Task DeleteTeamAsync(DeleteTeamModel model)
         {
-            throw new NotImplementedException();
+            await _teamRepository.DeleteTeamAsync(new ObjectId(model.TeamId));
         }
 
-        public Task DeleteTeamFromBoardAsync(DeleteTeamFromBoardModel model)
+        public async Task DeleteTeamFromBoardAsync(DeleteTeamFromBoardModel model)
         {
-            throw new NotImplementedException();
+            await _teamRepository.DeleteTeamFromBoardAsync(new ObjectId(model.TeamId), new ObjectId(model.BoardId));
         }
 
-        public Task DeleteTeamFromProjectAsync(DeleteTeamFromProjectModel model)
+        public async Task DeleteTeamFromProjectAsync(DeleteTeamFromProjectModel model)
         {
-            throw new NotImplementedException();
+            await _teamRepository.DeleteTeamFromProjectAsync(new ObjectId(model.TeamId), new ObjectId(model.ProjectId));
         }
 
-        public Task DeleteUserFromTeamAsync(DeleteUserFromTeamModel model)
+        public async Task DeleteUserFromTeamAsync(DeleteUserFromTeamModel model)
         {
-            throw new NotImplementedException();
+            await _teamRepository.DeleteUserFromTeamAsync(new ObjectId(model.TeamId), model.UserId);
         }
 
-        public Task DeleteYourselfAsync(DeleteYourselfFromTeamModel model)
+        public async Task DeleteYourselfAsync(DeleteYourselfFromTeamModel model)
         {
-            throw new NotImplementedException();
+            if ((await _teamRepository.GetUsersInTeamAsync(new ObjectId(model.TeamId))).AsQueryable().Count() == 1)
+            {
+                throw new Exception
+                    ("You are the last member of the team. If you really want to delete yourself, delete the team");
+            }
+                await _teamRepository.DeleteUserFromTeamAsync(new ObjectId(model.TeamId), model.UserId);
         }
 
-        public Task<ICollection<TeamInvitationModel>> GetAllTeamInvitationsAsync(ObjectId userId)
+        public async Task<ICollection<TeamInvitationModel>> GetAllTeamInvitationsAsync(ObjectId userId)
         {
-            throw new NotImplementedException();
+            return (await _teamRepository.GetAllTeamInvitationsAsync(userId))
+                .Select(g => new TeamInvitationModel { TeamId = g.TeamId.ToString(), TeamName = g.TeamName }).ToList();
         }
 
-        public Task<ICollection<ObjectId>> GetAllUsersInTeamAsync(GetTeamModel model)
+        public async Task<ICollection<ObjectId>> GetAllUsersInTeamAsync(GetTeamModel model)
         {
-            throw new NotImplementedException();
+            return await _teamRepository.GetUsersInTeamAsync(new ObjectId(model.TeamId));
         }
 
-        public Task<ICollection<TeamToSendLightModel>> getMyTeamsAsync(ObjectId userId)
+        public async Task<ICollection<TeamToSendLightModel>> getMyTeamsAsync(ObjectId userId)
         {
-            throw new NotImplementedException();
+            return (await _teamRepository.GetTeamsByUserAsync(userId))
+                .Select(g => new TeamToSendLightModel { TeamId = g.Id.ToString(), Name = g.Name }).ToList();
         }
 
-        public Task<TeamToSendFullModel> GetTeamAsync(GetTeamModel model)
+        public async Task<TeamToSendFullModel> GetTeamAsync(GetTeamModel model)
         {
-            throw new NotImplementedException();
+            var team = (await _teamRepository.GetTeamAsync(new ObjectId(model.TeamId)));
+            return new TeamToSendFullModel { Name = team.Name, TeamId = model.TeamId};
         }
 
-        public Task InviteUserToTeamAsync(InviteUserToTeamModel model)
+        public async Task InviteUserToTeamAsync(InviteUserToTeamModel model)
         {
-            throw new NotImplementedException();
+            var users = await _teamRepository.GetUsersInTeamAsync(new ObjectId(model.TeamId));
+            if (users.Contains(model.RecipientId))
+            {
+                throw new Exception("User is already a member of the team");
+            }
+            var invitations = await _teamRepository.GetAllTeamInvitationsAsync(model.RecipientId);
+            if (invitations.Select(i => i.TeamId).Contains(new ObjectId(model.TeamId)))
+            {
+                throw new Exception("User has already been invited");
+            }
+            var id = new ObjectId(model.TeamId);
+            await _teamRepository.InviteUserToTeamAsync(id, model.RecipientId);
         }
 
-        public Task RejectTeamInvitationAsync(RejectTeamInvitationModel model)
+        public async Task RejectTeamInvitationAsync(RejectTeamInvitationModel model)
         {
-            throw new NotImplementedException();
+            var users = await _teamRepository.GetUsersInTeamAsync(new ObjectId(model.TeamId));
+            if (users.Contains(model.UserId))
+            {
+                throw new Exception("You are a member of that project");
+            }
+            var id = new ObjectId(model.TeamId);
+            await _teamRepository.RejectInvitationToTeamAsync(id, model.UserId);
         }
     }
-}
+    }

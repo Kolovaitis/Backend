@@ -198,6 +198,7 @@
     <Compile Include="Controllers\CardController.cs" />
     <Compile Include="Controllers\ColumnController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="EnsureAuthIndexes.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="IdentityConfig.cs" />
